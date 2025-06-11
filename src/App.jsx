@@ -5,15 +5,19 @@ import HomePage from "./pages/HomePage";
 import IdentificationPage from "./pages/IdentificationPage";
 import InstrumentsPage from "./pages/InstrumentsPages";
 import GroupsPage from "./pages/GroupsPage";
-import AdDetailsPage from "./AdDetailsPage";
+import AdDetailsPage from "./pages/AdDetailsPage";
 import ProfilePage from "./pages/ProfilePage";
 import OwnReviewsPage from "./pages/OwnReviewsPage";
 import Error404Page from "./pages/Error404Page";
 import Error500Page from "./pages/Error500Page";
+import NavBar from "./components/NavBar";
 
 function App() {
 
   return (
+    <>
+    <NavBar />
+
     <Routes>
           <Route path="/" element={<HomePage />} />
           
@@ -28,6 +32,7 @@ function App() {
           <Route path="/500" element={<Error500Page />} />
 
         </Routes>
+        </>
   )
 }
 
