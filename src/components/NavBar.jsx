@@ -1,31 +1,57 @@
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import "./NavBar.css";
+import { AuthContext } from "../context/auth.context";
 
 function NavBar() {
-      const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
+  const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
   return (
     <div>
-      <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
-      <Nav.Item>
-        <img src="logoMi.png"></img>
-      </Nav.Item>
-      <NavDropdown title="Buscar" id="nav-dropdown">
-        <NavDropdown.Item eventKey="2.1">Action</NavDropdown.Item>
-        <NavDropdown.Item eventKey="2.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item eventKey="2.3">Something else here</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item eventKey="2.4">Separated link</NavDropdown.Item>
-      </NavDropdown>
-      <NavDropdown title="Perfil" id="nav-dropdown">
-        <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
-        <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
-      </NavDropdown>
-    </Nav>
+      <Nav id="Nav" variant="pills" activeKey="1" onSelect={handleSelect}>
+        <Nav.Item>
+          <img src="logoMi.png" style={{ width: "70px" }}></img>
+        </Nav.Item>
+        <NavDropdown title="Buscar" id="nav-dropdown" className="mega-dropdown">
+          <div className="mega-menu px-4 py-3">
+            <Container>
+              <Row id="Row">
+                <Col>
+                  <h6>Instrumentos</h6>
+                  <NavDropdown.Item>Yamaha</NavDropdown.Item>
+                  <NavDropdown.Item>Thoman</NavDropdown.Item>
+                  <NavDropdown.Item>Bach</NavDropdown.Item>
+                  <NavDropdown.Item>Stentor</NavDropdown.Item>
+                  <NavDropdown.Item>Fender</NavDropdown.Item>
+                </Col>
+                <Col>
+                  <h6>Grupos</h6>
+                  <NavDropdown.Item>Mejor Valorados</NavDropdown.Item>
+                  <NavDropdown.Item>Mas Económicos</NavDropdown.Item>
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        </NavDropdown>
+        <NavDropdown title="Mi Cuenta" id="nav-dropdown">
+          <NavDropdown.Item eventKey="4.1">
+            Entrar o Registrarme
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2">Mis Anuncios</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.3">Mis Comentarios</NavDropdown.Item>
+          {AuthContext && (
+            <>
+              <NavDropdown.Divider />
+              <NavDropdown.Item eventKey="4.4">Cerrar Sesión</NavDropdown.Item>
+            </>
+          )}
+        </NavDropdown>
+      </Nav>
     </div>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

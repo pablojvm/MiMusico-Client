@@ -1,0 +1,16 @@
+#Nav {
+    background-color:white; 
+    border-radius:40px; 
+    display: flex;
+    justify-content:space-between;
+    text-align: center;
+    width:90vw;
+    position: absolute;
+    top: 10px;
+    left: 5%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
