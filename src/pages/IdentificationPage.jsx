@@ -1,9 +1,10 @@
-import React from 'react'
+import IdentificationBanner from "../components/IdentificationBanner"
 
 function IdentificationPage() {
   return (
-    <div>
-      <h1>Pagina de identificacion</h1>
+    <div id="primer">
+      <h3>Compra y vende instrumentos de segunda mano, o contrata al mejor grupo para la mejor ocasión</h3>
+      <IdentificationBanner/>
     </div>
   )
 }

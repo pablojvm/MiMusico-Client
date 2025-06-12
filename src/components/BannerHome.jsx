@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, Nav, Button, Form, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function BannerHome() {
 
@@ -34,7 +35,6 @@ function BannerHome() {
           </Button>
         </div>
 
-        {/* Selectores */}
         <Form.Group className="mb-3">
           <Form.Select>
             <option disabled selected>Estado</option>
@@ -65,14 +65,13 @@ function BannerHome() {
           </Col>
         </Row>
 
-        {/* Botón */}
-        <Button variant="danger" className="w-100">
+        <Button variant="danger" className="w-100" as={Link} to="/ads/instruments">
           Mostrar resultados
         </Button>
         </>
     )}
     {activeBanner === "vender" && (
-        <Button style={{width:"300px", height:"300px", backgroundColor:"white", color:"black"}}>Crea tu Propio Anuncio</Button>
+        <Button as={Link} to="/new-ad"style={{width:"300px", height:"300px", backgroundColor:"white", color:"black"}}>Crea tu Propio Anuncio</Button>
     )}
         
       </Card>
