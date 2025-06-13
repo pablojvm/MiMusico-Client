@@ -13,7 +13,7 @@ import Error500Page from "./pages/Error500Page";
 import NavBar from "./components/NavBar";
 import OwnAdsPage from "./pages/OwnAdsPage";
 import CreateAdPage from "./pages/CreateAdPage";
-
+import OnlyPrivate from "./components/OnlyPrivate"
 
 
 function App() {
@@ -29,10 +29,10 @@ function App() {
           <Route path="/ads/instruments" element={<InstrumentsPage />} />
           <Route path="/ads/groups" element={<GroupsPage />} />
           <Route path="/ads/:adId" element={<AdDetailsPage />} />
-          <Route path="/user-profile" element={<ProfilePage />} />
-          <Route path="/own-ads" element={<OwnAdsPage/>} />
-          <Route path="/own-reviews" element={<OwnReviewsPage/>} />
-          <Route path="/new-ad" element={<CreateAdPage/>} />
+          <Route path="/user-profile" element={<OnlyPrivate ><ProfilePage /></OnlyPrivate>} />
+          <Route path="/own-ads" element={<OnlyPrivate ><OwnAdsPage/></OnlyPrivate>} />
+          <Route path="/own-reviews" element={<OnlyPrivate ><OwnReviewsPage/></OnlyPrivate>} />
+          <Route path="/new-ad" element={<OnlyPrivate ><CreateAdPage/></OnlyPrivate>} />
 
           
           <Route path="*" element={<Error404Page />} />

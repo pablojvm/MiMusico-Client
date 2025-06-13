@@ -65,6 +65,7 @@ function IdentificationBanner() {
   const toggleSignup = () => {
     setButtonSignup((prev) => (prev === "login" ? "signup" : "login"));
   };
+  
   return (
     <div>
       {buttonSignup === "login" && (
@@ -153,7 +154,9 @@ function IdentificationBanner() {
         </Card>
       )}
       <ModalNewUser show={showSignupModal} handleClose={() => setShowSignupModal(false)} />
+        { errorMessage && <p>{errorMessage}</p>}
     </div>
+    
   );
 }
 

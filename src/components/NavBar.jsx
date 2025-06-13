@@ -1,16 +1,30 @@
 import { Col, Row, NavDropdown, Container, Nav } from "react-bootstrap";
 import "./NavBar.css";
 import { AuthContext } from "../context/auth.context";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 function NavBar() {
+  const navigate = useNavigate();
+  const { isLoggedIn, authenticateUser } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    localStorage.removeItem("authToken");
+    try {
+      await authenticateUser(); // cambia los estados del contexto para indicar que el usuario
+      //no esta logeado
+      navigate("/identification");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
-      <Nav id="Nav" variant="pills" activeKey="1" >
+      <Nav id="Nav" variant="pills" activeKey="1">
         <Nav.Item>
-            <Link to="/">
-          <img src="logoMi.png" style={{ width: "70px" }}></img>
+          <Link to="/">
+            <img src="logoMi.png" style={{ width: "70px" }}></img>
           </Link>
         </Nav.Item>
         <NavDropdown title="Buscar" id="nav-dropdown" className="mega-dropdown">
@@ -35,15 +49,28 @@ function NavBar() {
           </div>
         </NavDropdown>
         <NavDropdown title="Mi Cuenta" id="nav-dropdown">
-          <NavDropdown.Item as={Link} to="/identification" eventKey="4.1">
-            Entrar o Registrarme
+          {isLoggedIn ? (
+            <NavDropdown.Item as={Link} to="/user-profile" eventKey="4.1">
+              Perfil
+            </NavDropdown.Item>
+          ) : (
+            <NavDropdown.Item as={Link} to="/identification" eventKey="4.1">
+              Entrar o Registrarme
+            </NavDropdown.Item>
+          )}
+
+          <NavDropdown.Item as={Link} to="/own-ads" eventKey="4.2">
+            Mis Anuncios
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/own-ads" eventKey="4.2">Mis Anuncios</NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/own-reviews" eventKey="4.3">Mis Comentarios</NavDropdown.Item>
-          {AuthContext && (
+          <NavDropdown.Item as={Link} to="/own-reviews" eventKey="4.3">
+            Mis Comentarios
+          </NavDropdown.Item>
+          {isLoggedIn && (
             <>
               <NavDropdown.Divider />
-              <NavDropdown.Item eventKey="4.4">Cerrar Sesión</NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.4" onClick={handleLogout}>
+                Cerrar Sesión
+              </NavDropdown.Item>
             </>
           )}
         </NavDropdown>

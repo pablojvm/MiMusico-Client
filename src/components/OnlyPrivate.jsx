@@ -9,7 +9,7 @@ function OnlyPrivate(props) {
   if (isLoggedIn) {
     return props.children;
   } else {
-    return <Navigate to="/login"/>
+    return <Navigate to="/identification"/>
   }
 }
 
