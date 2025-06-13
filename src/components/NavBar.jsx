@@ -1,9 +1,4 @@
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Col, Row, NavDropdown, Container, Nav } from "react-bootstrap";
 import "./NavBar.css";
 import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
