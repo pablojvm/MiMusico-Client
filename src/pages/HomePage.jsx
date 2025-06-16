@@ -1,4 +1,3 @@
-import React from "react";
 import "./HomePage.css";
 import BannerHome from "../components/BannerHome";
 import CardsFamily from "../components/CardsFamily"

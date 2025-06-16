@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { useContext } from "react";
 
 function OwnAdsPage() {
   const navigate = useNavigate();
@@ -36,25 +35,18 @@ function OwnAdsPage() {
   return (
     <div style={{width:"90vw"}}>
       <h1>Mis anuncios</h1>
+      {adsById.length === 0 && <img src="image.png" width="500px"/>}
       {adsById.map((ad) => {
         return (
-          // <Card key={ad._id} className="bg-dark text-white">
-          //    <Card.Img src={ad.photo} alt="Card image" />
-          //   <Card.ImgOverlay>
-          //     <Card.Title>{ad.type}{ad.name}{ad.brand}</Card.Title>
-          //     <Card.Text>{ad.cost}</Card.Text>
-          //     <Card.Text>Last updated 3 mins ago</Card.Text>
-          //   </Card.ImgOverlay>
-          // </Card>
           <Card key={ad._id}>
             <Card.Img variant="top" src={ad.photo} />
       <Card.Header>{ad.name}</Card.Header>
       <Card.Body>
         <Card.Title>{ad.family}</Card.Title>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          {ad.description}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary" as={Link} to="/ad/:adId" >Mas Detalles</Button>
       </Card.Body>
     </Card>
         );
@@ -69,7 +61,7 @@ function OwnAdsPage() {
           as={Link}
           to="/new-ad"
         >
-          <img src="58727.png" width="100px" />
+          <img src="58727.png" width="100px"/>
           {adsById.length === 0 ? (
        <p> Añade tu primer anuncio</p>
       ): (<p> Añade un nuevo anuncio</p>)}

@@ -11,9 +11,8 @@ function NavBar() {
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
     try {
-      await authenticateUser(); // cambia los estados del contexto para indicar que el usuario
-      //no esta logeado
-      navigate("/identification");
+      await authenticateUser()
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

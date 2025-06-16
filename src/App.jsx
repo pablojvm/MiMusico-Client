@@ -28,7 +28,7 @@ function App() {
           <Route path="/identification" element={<IdentificationPage />} />
           <Route path="/ads/instruments" element={<InstrumentsPage />} />
           <Route path="/ads/groups" element={<GroupsPage />} />
-          <Route path="/ads/:adId" element={<AdDetailsPage />} />
+          <Route path="/ad/:adId" element={<AdDetailsPage />} />
           <Route path="/user-profile" element={<OnlyPrivate ><ProfilePage /></OnlyPrivate>} />
           <Route path="/own-ads" element={<OnlyPrivate ><OwnAdsPage/></OnlyPrivate>} />
           <Route path="/own-reviews" element={<OnlyPrivate ><OwnReviewsPage/></OnlyPrivate>} />
