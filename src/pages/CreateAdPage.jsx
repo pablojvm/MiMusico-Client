@@ -5,7 +5,7 @@ import { AuthContext } from "../context/auth.context";
 import axios from "axios";
 
 function CreateAdPage() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const { loggedUserId } = useContext(AuthContext);
 
@@ -19,7 +19,7 @@ function CreateAdPage() {
   const [model, setModel] = useState("");
   const [cost, setCost] = useState("");
   const [description, setDescription] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photos, setPhotos] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleOwnerChange = (e) => setOwner(loggedUserId);
@@ -31,7 +31,7 @@ function CreateAdPage() {
   const handleModelChange = (e) => setModel(e.target.value);
   const handleCostChange = (e) => setCost(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handlePhotoChange = (e) => setPhoto(e.target.value);
+  const handlePhotosChange = (e) => setPhotos(e.target.value);
 
   useEffect(() => {
     getData();
@@ -69,14 +69,15 @@ function CreateAdPage() {
         brand,
         model,
         cost,
-        photo,
+        photos: photos ? [photos] : ["https://res.cloudinary.com/dinaognbb/image/upload/v1749822599/fotouser_f9vrur.png"],
         description,
       };
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/ad`,
         newAd
       );
-      navigate("/ad/:adId");
+      const createdAdId = response.data._id;
+      navigate(`/ad/${createdAdId}`);
     } catch (error) {
       console.log(error);
       if (error.response.status === 400) {
@@ -219,6 +220,8 @@ function CreateAdPage() {
           <Form.Control
             id="basic-url"
             aria-describedby="Postea tu mejor foto"
+            value={photos}
+            onChange={handlePhotosChange}
           />
         </InputGroup>
         <Button variant="info" type="submit">

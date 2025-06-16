@@ -40,13 +40,13 @@ function OwnAdsPage() {
         return (
           <Card key={ad._id}>
             <Card.Img variant="top" src={ad.photo} />
-      <Card.Header>{ad.name}</Card.Header>
+      <Card.Header>{ad.type}</Card.Header>
       <Card.Body>
-        <Card.Title>{ad.family}</Card.Title>
+        <Card.Title>{ad.title}</Card.Title>
         <Card.Text>
           {ad.description}
         </Card.Text>
-        <Button variant="primary" as={Link} to="/ad/:adId" >Mas Detalles</Button>
+        <Button variant="primary" as={Link} to={`/ad/${ad._id}`} >Mas Detalles</Button>
       </Card.Body>
     </Card>
         );
