@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BannerEditAd from "../components/BannerEditAd";
+import ModalDeleteAd from "../components/ModalDeleteAd";
 
 function AdDetailsPage() {
   const params = useParams();
@@ -36,6 +37,27 @@ function AdDetailsPage() {
     setShowEdit(!showEdit);
   };
 
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/api/ad/${params.adId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("authToken");
+      navigate("/own-ads");
+    } catch (error) {
+      console.log(error);
+      navigate("/500");
+    }
+  };
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+
   if (!ad) {
     return <p>Cargando información...</p>;
   }
@@ -52,6 +74,7 @@ function AdDetailsPage() {
               <Card.Text>Modelo: {ad.model}</Card.Text>
               <Card.Text>Precio: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
+              <Button variant="danger" onClick={toggleDeleteModal}>Borrar</Button>
               <Button variant="primary" onClick={toggleEditForm}>Edit Info</Button>
             </Card.Body>
           </Card>
@@ -66,6 +89,7 @@ function AdDetailsPage() {
               <Card.Text>Tipo de Grupo: {ad.brand}</Card.Text>
               <Card.Text>Precio por hora: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
+              <Button variant="danger" onClick={toggleDeleteModal}>Borrar</Button>
               <Button variant="primary" onClick={toggleEditForm}>Edit Info</Button>
             </Card.Body>
           </Card>
@@ -78,6 +102,9 @@ function AdDetailsPage() {
           onClose={toggleEditForm}
         />
       )}
+      <ModalDeleteAd show={showDeleteModal}
+            handleClose={toggleDeleteModal}
+            handleDelete={handleDelete}/>
     </div>
   );
 }
