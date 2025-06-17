@@ -32,16 +32,16 @@ function NavBar() {
               <Row id="Row">
                 <Col>
                   <h6>Instrumentos</h6>
-                  <NavDropdown.Item>Yamaha</NavDropdown.Item>
-                  <NavDropdown.Item>Thoman</NavDropdown.Item>
-                  <NavDropdown.Item>Bach</NavDropdown.Item>
-                  <NavDropdown.Item>Stentor</NavDropdown.Item>
-                  <NavDropdown.Item>Fender</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments">Yamaha</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments">Thoman</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments">Bach</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments">Stentor</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments">Fender</NavDropdown.Item>
                 </Col>
                 <Col>
                   <h6>Grupos</h6>
-                  <NavDropdown.Item>Mejor Valorados</NavDropdown.Item>
-                  <NavDropdown.Item>Mas Económicos</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/groups">Mejor Valorados</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/groups">Mas Económicos</NavDropdown.Item>
                 </Col>
               </Row>
             </Container>

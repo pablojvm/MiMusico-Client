@@ -1,25 +1,29 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth.context";
 import ModalDeleteUser from "../components/ModalDeleteUser";
 
 function ProfilePage() {
   const navigate = useNavigate();
 
-  const { loggedUserId } = useContext(AuthContext);
-
   const [showEdit, setShowEdit] = useState(false);
-  const [profileInfo, setProfileInfo] = useState({});
+  const [profileInfo, setProfileInfo] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [number, setNumber] = useState(null);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const toggleEditForm = () => {
     setShowEdit(!showEdit);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
 
   const getData = async () => {
     try {
@@ -33,23 +37,14 @@ function ProfilePage() {
         }
       );
       setProfileInfo(response.data);
+      setEmail(response.data.email);
+      setNumber(response.data.number);
+      setUsername(response.data.username);
     } catch (error) {
       console.log(error);
       navigate("/500");
     }
   };
-
-  const [username, setUsername] = useState(profileInfo.username);
-  const [email, setEmail] = useState(profileInfo.email);
-  const [number, setNumber] = useState(profileInfo.number);
-
-  useEffect(() => {
-    if (profileInfo) {
-      setUsername(profileInfo.username || "");
-      setEmail(profileInfo.email || "");
-      setNumber(profileInfo.number || "");
-    }
-  }, [profileInfo]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -83,9 +78,6 @@ function ProfilePage() {
     }
   };
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
-
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -104,7 +96,7 @@ function ProfilePage() {
     }
   };
 
-  if (!loggedUserId) {
+  if (!profileInfo) {
     return <p>Cargando información</p>;
   }
 
@@ -131,7 +123,11 @@ function ProfilePage() {
         <Button variant="primary" onClick={toggleEditForm}>
           Editar
         </Button>
-        <Button variant="outline-danger" className="ms-3" onClick={toggleDeleteModal}>
+        <Button
+          variant="outline-danger"
+          className="ms-3"
+          onClick={toggleDeleteModal}
+        >
           Borrar Usuario
         </Button>
       </div>
@@ -179,14 +175,13 @@ function ProfilePage() {
               Submit
             </Button>
           </Form>
-          
         </div>
       )}
       <ModalDeleteUser
-            show={showDeleteModal}
-            handleClose={toggleDeleteModal}
-            handleDelete={handleDelete}
-          />
+        show={showDeleteModal}
+        handleClose={toggleDeleteModal}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
