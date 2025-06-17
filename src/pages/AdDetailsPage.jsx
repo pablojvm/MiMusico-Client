@@ -1,13 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BannerEditAd from "../components/BannerEditAd";
 import ModalDeleteAd from "../components/ModalDeleteAd";
+import { AuthContext } from "../context/auth.context";
 
 function AdDetailsPage() {
   const params = useParams();
   const navigate = useNavigate();
+
+  const { loggedUserId } = useContext(AuthContext);
 
   const [ad, setAd] = useState(null);
 
@@ -75,8 +78,16 @@ function AdDetailsPage() {
               <Card.Text>Estado: {ad.state}</Card.Text>
               <Card.Text>Precio: {ad.cost}</Card.Text>
               <Card.Text>Descripción: {ad.description}</Card.Text>
-              <Button variant="danger" onClick={toggleDeleteModal}>Borrar</Button>
-              <Button variant="primary" onClick={toggleEditForm}>Edit Info</Button>
+              {ad.owner == loggedUserId && (
+                <div>
+                  <Button variant="danger" onClick={toggleDeleteModal}>
+                    Borrar
+                  </Button>
+                  <Button variant="primary" onClick={toggleEditForm}>
+                    Edit Info
+                  </Button>
+                </div>
+              )}
             </Card.Body>
           </Card>
         </div>
@@ -90,22 +101,24 @@ function AdDetailsPage() {
               <Card.Text>Tipo de Grupo: {ad.brand}</Card.Text>
               <Card.Text>Precio por hora: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
-              <Button variant="danger" onClick={toggleDeleteModal}>Borrar</Button>
-              <Button variant="primary" onClick={toggleEditForm}>Edit Info</Button>
+              <Button variant="danger" onClick={toggleDeleteModal}>
+                Borrar
+              </Button>
+              <Button variant="primary" onClick={toggleEditForm}>
+                Edit Info
+              </Button>
             </Card.Body>
           </Card>
         </div>
       )}
       {showEdit && (
-        <BannerEditAd
-          ad={ad}
-          onUpdate={getData}
-          onClose={toggleEditForm}
-        />
+        <BannerEditAd ad={ad} onUpdate={getData} onClose={toggleEditForm} />
       )}
-      <ModalDeleteAd show={showDeleteModal}
-            handleClose={toggleDeleteModal}
-            handleDelete={handleDelete}/>
+      <ModalDeleteAd
+        show={showDeleteModal}
+        handleClose={toggleDeleteModal}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
