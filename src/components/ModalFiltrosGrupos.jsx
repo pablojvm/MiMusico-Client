@@ -1,34 +1,29 @@
-import { useState } from "react";
 import { Form, Accordion } from "react-bootstrap";
 
-function ModalFiltrosGrupos() {
-  const [precio, setPrecio] = useState(50);
+function ModalFiltrosGrupos({tipo, setTipo, precioMax, setPrecioMax}) {
 
-  const handleChange = (e) => {
-    setPrecio(e.target.value);
-  };
   return (
     <div>
-      <Form.Select aria-label="Default select example">
-        <option>Tipo</option>
-        <option value="1">Banda</option>
-        <option value="2">Charanga</option>
-        <option value="3">Orquesta</option>
-        <option value="3">Solista</option>
+      <Form.Select aria-label="Default select example" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+        <option value="">Todos los tipos</option>
+        <option value="Banda">Banda</option>
+        <option value="Charanga">Charanga</option>
+        <option value="Orquesta">Orquesta</option>
+        <option value="Solista">Solista</option>
       </Form.Select>
       <Accordion>
-        <Accordion.Item eventKey="0">
+        <Accordion.Item eventKey="0" >
           <Accordion.Header>Precio</Accordion.Header>
           <Accordion.Body>
-            <Form.Label>
-              Precio maximo: <strong>{precio}€</strong>
+            <Form.Label >
+              Precio maximo: <strong>{precioMax}€</strong>
             </Form.Label>
             <Form.Range
               min={50}
               max={5000}
               step={50}
-              value={precio}
-              onChange={handleChange}
+              value={precioMax}
+              onChange={(e) => setPrecioMax(Number(e.target.value))}
             />
           </Accordion.Body>
         </Accordion.Item>

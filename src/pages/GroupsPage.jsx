@@ -12,6 +12,24 @@ function GroupsPage() {
   const [ads, setAds] = useState([])
   const [busqueda, setBusqueda] = useState("");
 
+  const [precioMax, setPrecioMax] = useState(5000);
+  const [tipo, setTipo] = useState("");
+
+
+  const anunciosFiltrados = ads.filter((ad) => {
+    const coincideBusqueda =
+      busqueda.trim() === "" ||
+      ad.title.toLowerCase().includes(busqueda.toLowerCase().trim()) ||
+      ad.description.toLowerCase().includes(busqueda.toLowerCase().trim());
+
+    const coincidePrecio = ad.cost <= precioMax;
+    const coincideTipo = tipo === "" || ad.type === tipo;
+
+    return (
+      coincideBusqueda && coincidePrecio  && coincideTipo
+    );
+  });
+
   useEffect(() => {
       getData();
     },[]);
@@ -32,18 +50,25 @@ function GroupsPage() {
     <div>
       <div>
         <BarraBusqueda
-          ads={ads}
-          busqueda={busqueda}
+          ads={ads} 
+          busqueda={busqueda} 
           setBusqueda={setBusqueda}
         />
       </div>
       <div style={{ display: "flex" }}>
         <div>
-          <ModalFiltrosGrupos />
+          <ModalFiltrosGrupos precioMax={precioMax} setPrecioMax={setPrecioMax} tipo={tipo} setTipo={setTipo}/>
         </div>
         {busqueda.trim() == "" && (
           <div>
-            {ads.map((eachAd, idx) => (
+            {anunciosFiltrados.length === 0 ? (
+            <Card className="mb-4 shadow-sm text-center">
+              <Card.Body>
+                <img src="/coincidences.png" width="400px"/>
+              </Card.Body>
+            </Card>
+          ) : (
+            anunciosFiltrados.map((eachAd, idx) => (
               <Card
                 className="mb-4 shadow-sm"
                 key={idx}
@@ -98,7 +123,7 @@ function GroupsPage() {
                   </Col>
                 </Row>
               </Card>
-            ))}
+            )))}
           </div>
         )}
 

@@ -72,8 +72,9 @@ function AdDetailsPage() {
               <Card.Title>{ad.title}</Card.Title>
               <Card.Text>Marca: {ad.brand}</Card.Text>
               <Card.Text>Modelo: {ad.model}</Card.Text>
+              <Card.Text>Estado: {ad.state}</Card.Text>
               <Card.Text>Precio: {ad.cost}</Card.Text>
-              <Card.Text>Descripción:{ad.description}</Card.Text>
+              <Card.Text>Descripción: {ad.description}</Card.Text>
               <Button variant="danger" onClick={toggleDeleteModal}>Borrar</Button>
               <Button variant="primary" onClick={toggleEditForm}>Edit Info</Button>
             </Card.Body>
