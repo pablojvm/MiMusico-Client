@@ -119,6 +119,11 @@ function AdDetailsPage() {
         handleClose={toggleDeleteModal}
         handleDelete={handleDelete}
       />
+      {ad.type === "service" && (
+        <div>
+          <Button variant="outline-primary">Añadir Comentario</Button>
+        </div>
+      )}
     </div>
   );
 }
