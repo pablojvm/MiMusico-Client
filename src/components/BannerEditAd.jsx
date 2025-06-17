@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
-function BannerEditAd({onClose, onUpdate}) {
+function BannerEditAd({ onClose, onUpdate }) {
   const navigate = useNavigate();
   const params = useParams();
 
@@ -16,7 +16,9 @@ function BannerEditAd({onClose, onUpdate}) {
   const [brand, setBrand] = useState("");
   const [family, setFamily] = useState("");
   const [state, setState] = useState("");
-  const [photos, setPhotos] = useState("");
+  const [photos, setPhotos] = useState([]);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     getData();
@@ -79,9 +81,9 @@ function BannerEditAd({onClose, onUpdate}) {
     };
     await handleUpdate(updatedData);
     if (onUpdate) {
-    onUpdate(updatedData);
-    onClose()
-  }
+      onUpdate(updatedData);
+      onClose();
+    }
   };
 
   const handleUpdate = async (updatedData) => {
@@ -101,6 +103,29 @@ function BannerEditAd({onClose, onUpdate}) {
       navigate("/500");
     }
   };
+
+  const handleFileUpload = async (event) => {
+    if (!event.target.files[0]) {
+      return;
+    }
+
+    setIsUploading(true);
+
+    const uploadData = new FormData();
+    uploadData.append("image", event.target.files[0]);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
+        uploadData
+      );
+      setImageUrl(response.data.imageUrl);
+      setPhotos(prev => [...prev, response.data.imageUrl]);
+      setIsUploading(false);
+    } catch (error) {
+      navigate("/error");
+    }
+  };
+
   return (
     <div>
       <Form
@@ -198,16 +223,15 @@ function BannerEditAd({onClose, onUpdate}) {
             onChange={handleDescriptionChange}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicNumber">
-          <Form.Label>Fotos</Form.Label>
-          <Form.Control
-            type="text"
-            value={photos}
-            onChange={handlePhotosChange}
-          />
-        </Form.Group>
-
-        <Button variant="danger" onClick={onClose}>Close</Button>
+        <Form.Label>Foto</Form.Label>
+        <Form.Control
+          type="file"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+        />
+        <Button variant="danger" onClick={onClose}>
+          Close
+        </Button>
         <Button variant="primary" className="ms-3" type="submit">
           Editar
         </Button>

@@ -21,6 +21,8 @@ function CreateAdPage() {
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleOwnerChange = (e) => setOwner(loggedUserId);
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -69,7 +71,11 @@ function CreateAdPage() {
         brand,
         model,
         cost,
-        photos: photos ? [photos] : ["https://res.cloudinary.com/dinaognbb/image/upload/v1749822599/fotouser_f9vrur.png"],
+        photos: photos
+          ? [photos]
+          : [
+              "https://res.cloudinary.com/dinaognbb/image/upload/v1749822599/fotouser_f9vrur.png",
+            ],
         description,
       };
       const response = await axios.post(
@@ -87,6 +93,29 @@ function CreateAdPage() {
       }
     }
   };
+
+  const handleFileUpload = async (event) => {
+    if (!event.target.files[0]) {
+      return;
+    }
+
+    setIsUploading(true);
+
+    const uploadData = new FormData();
+    uploadData.append("image", event.target.files[0]);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
+        uploadData
+      );
+      setImageUrl(response.data.imageUrl);
+      setPhotos(response.data.imageUrl)
+      setIsUploading(false);
+    } catch (error) {
+      navigate("/error");
+    }
+  };
+
   return (
     <div>
       <h1>Crea tu anuncio</h1>
@@ -215,15 +244,12 @@ function CreateAdPage() {
             onChange={handleDescriptionChange}
           />
         </InputGroup>
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon3">Foto</InputGroup.Text>
-          <Form.Control
-            id="basic-url"
-            aria-describedby="Postea tu mejor foto"
-            value={photos}
-            onChange={handlePhotosChange}
-          />
-        </InputGroup>
+        <Form.Label>Foto</Form.Label>
+        <Form.Control
+          type="file"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+        />
         <Button variant="info" type="submit">
           Crear
         </Button>
