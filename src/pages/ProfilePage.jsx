@@ -97,7 +97,6 @@ function ProfilePage() {
           },
         }
       );
-      localStorage.removeItem("authToken");
       navigate("/");
     } catch (error) {
       console.log(error);
