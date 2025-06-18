@@ -75,7 +75,7 @@ function BarraBusqueda({ ads, busqueda, setBusqueda }) {
         </div>
       )}
 
-      {adsFiltered.length === 0 && <p>No se encontraron resultados.</p>}
+      {adsFiltered.length === 0 && <img src="/coincidences.png" style={{width:"400px"}}/>}
     </div>
   );
 }

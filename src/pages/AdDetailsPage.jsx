@@ -6,6 +6,7 @@ import BannerEditAd from "../components/BannerEditAd";
 import ModalDeleteAd from "../components/ModalDeleteAd";
 import { AuthContext } from "../context/auth.context";
 import ModalNewReview from "../components/ModalNewReview";
+import PaymentIntent from "../components/PaymentIntent";
 
 function AdDetailsPage() {
   const params = useParams();
@@ -18,10 +19,11 @@ function AdDetailsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showNewReview, setShowNewReview] = useState(false);
-  const [title, setTitle] = useState("")
-  const [text, setText] = useState("")
-  const [score, setScore] = useState(1)
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [score, setScore] = useState(1);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showPaymentIntent, setShowPaymentIntent] = useState(false)
 
   const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
   const toggleEditForm = () => setShowEdit(!showEdit);
@@ -43,7 +45,7 @@ function AdDetailsPage() {
           },
         }
       );
-      setAd(response.data)
+      setAd(response.data);
     } catch (error) {
       console.log(error);
       navigate("/500");
@@ -81,7 +83,7 @@ function AdDetailsPage() {
   };
 
   const newReview = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const newReview = {
       title,
       text,
@@ -92,16 +94,17 @@ function AdDetailsPage() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/review`, newReview
-      )
+        `${import.meta.env.VITE_SERVER_URL}/api/review`,
+        newReview
+      );
       await reviewsByAd();
-    setShowNewReview(false);
-    setTitle(""); // <-- opcional: limpiar el formulario
-    setText("");
-    setScore(1);
+      setShowNewReview(false);
+      setTitle(""); // <-- opcional: limpiar el formulario
+      setText("");
+      setScore(1);
     } catch (error) {
-      console.log(error)
-      setErrorMessage(error.response.data.errorMessage)
+      console.log(error);
+      setErrorMessage(error.response.data.errorMessage);
     }
   };
 
@@ -122,17 +125,23 @@ function AdDetailsPage() {
               <Card.Text>Estado: {ad.state}</Card.Text>
               <Card.Text>Precio: {ad.cost}</Card.Text>
               <Card.Text>Descripción: {ad.description}</Card.Text>
-              {ad.owner._id == loggedUserId && (
-                <div>
-                  <Button variant="danger" onClick={toggleDeleteModal}>
-                    Borrar
-                  </Button>
-                  <Button variant="primary" onClick={toggleEditForm}>
-                    Edit Info
-                  </Button>
-                </div>
-              )}
             </Card.Body>
+            <Card.Body>
+              <Card.Title>Datos de Contacto</Card.Title>
+              <Card.Text>Telefono: {ad.owner.number}</Card.Text>
+            </Card.Body>
+            {ad.owner._id == loggedUserId && (
+              <div>
+                <Button variant="danger" onClick={toggleDeleteModal}>
+                  Borrar
+                </Button>
+                <Button variant="primary" onClick={toggleEditForm}>
+                  Edit Info
+                </Button>
+              </div>
+            )}
+
+            
           </Card>
         </div>
       )}
@@ -145,13 +154,22 @@ function AdDetailsPage() {
               <Card.Text>Tipo de Grupo: {ad.brand}</Card.Text>
               <Card.Text>Precio por hora: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
-              <Button variant="danger" onClick={toggleDeleteModal}>
-                Borrar
-              </Button>
-              <Button variant="primary" onClick={toggleEditForm}>
-                Edit Info
-              </Button>
+              </Card.Body>
+              <Card.Body>
+              <Card.Title>Datos de Contacto</Card.Title>
+              <Card.Text>Telefono: {ad.owner.number}</Card.Text>
             </Card.Body>
+              {ad.owner._id == loggedUserId && (
+              <div>
+                <Button variant="danger" onClick={toggleDeleteModal}>
+                  Borrar
+                </Button>
+                <Button variant="primary" onClick={toggleEditForm}>
+                  Edit Info
+                </Button>
+              </div>
+            )}
+            
           </Card>
         </div>
       )}
@@ -194,11 +212,27 @@ function AdDetailsPage() {
           <Button variant="outline-primary" onClick={toggleNewReview}>
             Añadir Comentario
           </Button>
-          {showNewReview && <ModalNewReview newReview={newReview} title={title} setTitle={setTitle} text={text} setText={setText} score={score} setScore={setScore}/>}
+          {showNewReview && (
+            <ModalNewReview
+              newReview={newReview}
+              title={title}
+              setTitle={setTitle}
+              text={text}
+              setText={setText}
+              score={score}
+              setScore={setScore}
+            />
+          )}
           {errorMessage && <p>{errorMessage}</p>}
         </div>
       )}
-      
+      <div>
+  { 
+    showPaymentIntent === false
+    ? <button onClick={() => setShowPaymentIntent(true)}>Iniciar Compra</button> 
+    : <PaymentIntent productDetails={ ad }/> 
+  }
+</div>
     </div>
   );
 }

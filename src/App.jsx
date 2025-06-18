@@ -14,6 +14,7 @@ import NavBar from "./components/NavBar";
 import OwnAdsPage from "./pages/OwnAdsPage";
 import CreateAdPage from "./pages/CreateAdPage";
 import OnlyPrivate from "./components/OnlyPrivate"
+import PaymentSuccess from "./PaymentSuccess";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/own-ads" element={<OnlyPrivate ><OwnAdsPage/></OnlyPrivate>} />
           <Route path="/own-reviews" element={<OnlyPrivate ><OwnReviewsPage/></OnlyPrivate>} />
           <Route path="/new-ad" element={<OnlyPrivate ><CreateAdPage/></OnlyPrivate>} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
 
           
           <Route path="*" element={<Error404Page />} />
