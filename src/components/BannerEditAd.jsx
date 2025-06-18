@@ -16,7 +16,6 @@ function BannerEditAd({ onClose, onUpdate }) {
   const [brand, setBrand] = useState("");
   const [family, setFamily] = useState("");
   const [state, setState] = useState("");
-  const [photos, setPhotos] = useState([]);
   const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -34,7 +33,7 @@ function BannerEditAd({ onClose, onUpdate }) {
       setBrand(adInfo.brand || "");
       setFamily(adInfo.family || "");
       setState(adInfo.state || "");
-      setPhotos(adInfo.photos || "");
+      setImageUrl(adInfo.photos || "");
     }
   }, [adInfo]);
 
@@ -77,7 +76,7 @@ function BannerEditAd({ onClose, onUpdate }) {
       brand,
       family,
       state,
-      photos,
+      photos: imageUrl
     };
     await handleUpdate(updatedData);
     if (onUpdate) {
@@ -105,26 +104,30 @@ function BannerEditAd({ onClose, onUpdate }) {
   };
 
   const handleFileUpload = async (event) => {
-    if (!event.target.files[0]) {
-      return;
-    }
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
 
-    setIsUploading(true);
+  setIsUploading(true);
 
-    const uploadData = new FormData();
-    uploadData.append("image", event.target.files[0]);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-        uploadData
-      );
-      setImageUrl(response.data.imageUrl);
-      setPhotos(prev => [...prev, response.data.imageUrl]);
-      setIsUploading(false);
-    } catch (error) {
-      navigate("/error");
-    }
-  };
+  const uploadData = new FormData();
+  for (let file of files) {
+    uploadData.append("image", file); // nombre 'image' debe coincidir con backend
+  }
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_URL}/api/upload`,
+      uploadData
+    );
+    console.log("Response upload:", response.data);
+    setImageUrl(response.data.imageUrl)
+  } catch (error) {
+    console.log("Error subiendo imagen:", error);
+    navigate("/error");
+  }
+
+  setIsUploading(false);
+};
 
   return (
     <div>
@@ -226,9 +229,17 @@ function BannerEditAd({ onClose, onUpdate }) {
         <Form.Label>Foto</Form.Label>
         <Form.Control
           type="file"
+          
           onChange={handleFileUpload}
           disabled={isUploading}
         />
+        <div className="mt-3 d-flex flex-wrap gap-2">
+          <img
+              src={imageUrl}
+              width="100"
+              style={{ borderRadius: "10px" }}
+            />
+        </div>
         <Button variant="danger" onClick={onClose}>
           Close
         </Button>

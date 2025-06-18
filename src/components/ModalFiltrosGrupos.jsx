@@ -1,22 +1,26 @@
 import { Form, Accordion } from "react-bootstrap";
 
-function ModalFiltrosGrupos({tipo, setTipo, precioMax, setPrecioMax}) {
-
+function ModalFiltrosGrupos({ familia, setFamilia, precioMax, setPrecioMax }) {
   return (
     <div>
-      <Form.Select aria-label="Default select example" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+      <Form.Select
+        aria-label="Filtro tipo grupo"
+        value={familia}
+        onChange={(e) => setFamilia(e.target.value)}
+      >
         <option value="">Todos los tipos</option>
         <option value="Banda">Banda</option>
         <option value="Charanga">Charanga</option>
         <option value="Orquesta">Orquesta</option>
         <option value="Solista">Solista</option>
       </Form.Select>
+
       <Accordion>
-        <Accordion.Item eventKey="0" >
+        <Accordion.Item eventKey="0">
           <Accordion.Header>Precio</Accordion.Header>
           <Accordion.Body>
-            <Form.Label >
-              Precio maximo: <strong>{precioMax}€</strong>
+            <Form.Label>
+              Precio máximo: <strong>{precioMax}€</strong>
             </Form.Label>
             <Form.Range
               min={50}
@@ -33,3 +37,4 @@ function ModalFiltrosGrupos({tipo, setTipo, precioMax, setPrecioMax}) {
 }
 
 export default ModalFiltrosGrupos;
+

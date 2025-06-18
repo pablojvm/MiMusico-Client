@@ -6,12 +6,13 @@ import { useContext } from "react";
 
 function NavBar() {
   const navigate = useNavigate();
-  const { isLoggedIn, authenticateUser } = useContext(AuthContext);
+  const { isLoggedIn, authenticateUser, loggedUserId } =
+    useContext(AuthContext);
 
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
     try {
-      await authenticateUser()
+      await authenticateUser();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -32,16 +33,30 @@ function NavBar() {
               <Row id="Row">
                 <Col>
                   <h6>Instrumentos</h6>
-                  <NavDropdown.Item as={Link} to="/ads/instruments">Yamaha</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments">Thoman</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments">Bach</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments">Stentor</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments">Fender</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Yamaha">
+                    Yamaha
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Thomann">
+                    Thomann
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Bach">
+                    Bach
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Stentor">
+                    Stentor
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Fender">
+                    Fender
+                  </NavDropdown.Item>
                 </Col>
                 <Col>
                   <h6>Grupos</h6>
-                  <NavDropdown.Item as={Link} to="/ads/groups">Mejor Valorados</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/groups">Mas Económicos</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_desc">
+                    Más Caros
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_asc">
+                    Mas Económicos
+                  </NavDropdown.Item>
                 </Col>
               </Row>
             </Container>
@@ -61,7 +76,7 @@ function NavBar() {
           <NavDropdown.Item as={Link} to="/own-ads" eventKey="4.2">
             Mis Anuncios
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/own-reviews" eventKey="4.3">
+          <NavDropdown.Item as={Link} to={`/own-reviews`} eventKey="4.3">
             Mis Comentarios
           </NavDropdown.Item>
           {isLoggedIn && (
