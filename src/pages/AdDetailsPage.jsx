@@ -167,7 +167,7 @@ function AdDetailsPage() {
             />
             <Card.Body>
               <Card.Title>{ad.title}</Card.Title>
-              <Card.Text>Tipo de Grupo: {ad.brand}</Card.Text>
+              <Card.Text>Tipo de Grupo: {ad.family}</Card.Text>
               <Card.Text>Precio por hora: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
               <Card.Title>Datos de Contacto</Card.Title>
@@ -177,7 +177,7 @@ function AdDetailsPage() {
                   <Button variant="danger" onClick={toggleDeleteModal}>
                     Borrar
                   </Button>
-                  <Button variant="primary" className="mt-2" onClick={toggleEditForm}>
+                  <Button variant="primary" className="ml-2" onClick={toggleEditForm}>
                     Edit Info
                   </Button>
                 </div>

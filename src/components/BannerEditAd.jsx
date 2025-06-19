@@ -127,16 +127,6 @@ function BannerEditAd({ onClose, onUpdate }) {
             onChange={handleTitleChange}
           />
         </Form.Group>
-        {/* <Form.Select
-          aria-label="Default select example"
-          value={type}
-          onChange={handleTypeChange}
-          className="mb-4"
-        >
-          <option>Type</option>
-          <option value="instrument">Instrumento</option>
-          <option value="service">Grupo</option>
-        </Form.Select> */}
 
         {adInfo.type === "instrument" && (
           <div>

@@ -87,6 +87,7 @@ function InstrumentsPage() {
               ) : (
                 anunciosFiltrados.map((eachAd, idx) => (
                   <Card
+                    id="cardsAds"
                     className="mb-4 shadow-sm"
                     key={idx}
                     style={{ height: "230px" }}

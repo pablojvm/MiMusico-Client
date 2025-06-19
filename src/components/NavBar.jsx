@@ -25,7 +25,7 @@ function NavBar() {
         <div style={{display:"flex", alignItems:"center"}}>
           <Nav.Item>
             <Link to="/">
-              <img src="logoblanco.png" style={{ width: "90px", marginLeft:"15px", marginRight:"15px" }}></img>
+              <img src="/logoblanco.png" style={{ width: "90px", marginLeft:"15px", marginRight:"15px" }}></img>
             </Link>
           </Nav.Item>
           <NavDropdown
