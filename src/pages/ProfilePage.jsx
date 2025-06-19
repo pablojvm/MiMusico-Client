@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -30,14 +30,7 @@ function ProfilePage() {
   const getData = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.get(`/user/profile`);
       setProfileInfo(response.data);
       setEmail(response.data.email);
       setNumber(response.data.number);
@@ -65,15 +58,7 @@ function ProfilePage() {
   const handleUpdate = async (updatedData) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.patch(`/user/profile`, updatedData);
       setProfileInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -84,14 +69,7 @@ function ProfilePage() {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.delete(`/user/profile`);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -107,7 +85,7 @@ function ProfilePage() {
     const uploadData = new FormData();
     uploadData.append("image", event.target.files[0]);
     try {
-      const response = await axios.post(`/upload`, uploadData);
+      const response = await service.post(`/upload`, uploadData);
       setImageUrl(response.data.imageUrl);
       setIsUploading(false);
     } catch (error) {
