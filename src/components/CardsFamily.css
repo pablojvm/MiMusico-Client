@@ -1,5 +1,21 @@
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#Card {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-family: "Anton", sans-serif;
+}
+
 #Card:hover {
-    background-color: rgb(67, 96, 243);
+    background-color: rgb(68, 82, 102);
     color: white;
     transition: 0.3s;
+    width: 19%;
 }
+

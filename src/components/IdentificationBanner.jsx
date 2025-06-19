@@ -2,7 +2,7 @@ import { Card, Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import axios from "axios";
+import service from "../services/service.config";
 import ModalNewUser from "./ModalNewUser";
 
 function IdentificationBanner() {
@@ -34,11 +34,7 @@ function IdentificationBanner() {
     };
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
-        userCredentials
-      );
-      console.log("usuario validado", response);
+      const response = await service.post(`/auth/login`, userCredentials)
       localStorage.setItem("authToken", response.data.authToken);
       await authenticateUser();
       navigate("/own-ads");
@@ -62,10 +58,7 @@ function IdentificationBanner() {
         number,
         password,
       };
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/auth/signup`,
-        newUser
-      );
+      const response = await service.post(`/auth/signup`, newUser);
       toggleSignup();
       setShowSignupModal(true);
     } catch (error) {

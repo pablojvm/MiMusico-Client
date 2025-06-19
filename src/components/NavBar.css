@@ -14,3 +14,8 @@
     display: flex;
     flex-direction: row;
 }
+
+.nav-dropdown{
+    background-color: red;
+    color: white
+}

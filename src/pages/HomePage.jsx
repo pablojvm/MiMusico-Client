@@ -8,10 +8,10 @@ function HomePage() {
     <div>
       <div id="primer">
         <h3>Ponle banda sonora a tu vida al mejor precio</h3>
-        <BannerHome />
+        <BannerHome/>
       </div>
-      <div id="segundo">
-        <h3>Mas categorias</h3>
+      <div id="segundo" style={{marginTop:"10px"}}>
+        <h3 style={{display:"flex", alignItems:"flex-start", marginLeft:"15px", marginTop:"5px"}}>Mas categorias</h3>
         <div>
           <CardsFamily/>
         </div>

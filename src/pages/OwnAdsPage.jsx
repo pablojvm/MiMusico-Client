@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useEffect, useState, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,14 +17,7 @@ function OwnAdsPage() {
   const getData = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/own?objectId=${loggedUserId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.get(`/ad/own?objectId=${loggedUserId}`);
       setAdsById(response.data);
     } catch (error) {
       console.log(error);
@@ -33,8 +26,9 @@ function OwnAdsPage() {
   };
 
   return (
-    <div style={{width:"90vw"}}>
+    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
       <h1>Mis anuncios</h1>
+      <div >
       {adsById.length === 0 && <img src="image.png" width="500px"/>}
       {adsById.map((ad) => {
         return (
@@ -67,6 +61,7 @@ function OwnAdsPage() {
       ): (<p> Añade un nuevo anuncio</p>)}
           
         </Button>
+        </div>
     </div>
   );
 }

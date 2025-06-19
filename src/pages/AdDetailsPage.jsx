@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useContext, useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,7 +23,7 @@ function AdDetailsPage() {
   const [text, setText] = useState("");
   const [score, setScore] = useState(1);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [showPaymentIntent, setShowPaymentIntent] = useState(false)
+  const [showPaymentIntent, setShowPaymentIntent] = useState(false);
 
   const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
   const toggleEditForm = () => setShowEdit(!showEdit);
@@ -36,15 +36,7 @@ function AdDetailsPage() {
 
   const getData = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/${params.adId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.get(`/ad/${params.adId}`);
       setAd(response.data);
     } catch (error) {
       console.log(error);
@@ -54,9 +46,7 @@ function AdDetailsPage() {
 
   const reviewsByAd = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/review/${params.adId}`
-      );
+      const response = await service.get(`/review/${params.adId}`);
       setReviews(response.data);
     } catch (error) {
       console.error(error);
@@ -65,15 +55,7 @@ function AdDetailsPage() {
 
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/${params.adId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`/ad/${params.adId}`);
       localStorage.removeItem("authToken");
       navigate("/own-ads");
     } catch (error) {
@@ -93,13 +75,10 @@ function AdDetailsPage() {
     };
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/review`,
-        newReview
-      );
+      const response = await service.post(`/review`, newReview);
       await reviewsByAd();
       setShowNewReview(false);
-      setTitle(""); // <-- opcional: limpiar el formulario
+      setTitle("");
       setText("");
       setScore(1);
     } catch (error) {
@@ -109,15 +88,30 @@ function AdDetailsPage() {
   };
 
   if (!ad) {
-    return <p>Cargando información...</p>;
+    return <img src="/animatedviolin.gif" />;
   }
   return (
     <div>
-      <h1>Detalles del anuncio</h1>
+      <h1 style={{ marginTop: "70px" }}>Detalles del anuncio</h1>
       {ad.type === "instrument" && (
         <div>
-          <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={ad.photos[0]} />
+          <Card
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              borderRadius: "20px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <Card.Img
+              variant="top"
+              src={ad.photos[0]}
+              style={{
+                width: "300px",
+                border: "5px solid rgb(68, 82, 102)",
+                borderRadius: "10px",
+              }}
+            />
             <Card.Body>
               <Card.Title>{ad.title}</Card.Title>
               <Card.Text>Marca: {ad.brand}</Card.Text>
@@ -125,51 +119,82 @@ function AdDetailsPage() {
               <Card.Text>Estado: {ad.state}</Card.Text>
               <Card.Text>Precio: {ad.cost}</Card.Text>
               <Card.Text>Descripción: {ad.description}</Card.Text>
-            </Card.Body>
-            <Card.Body>
               <Card.Title>Datos de Contacto</Card.Title>
               <Card.Text>Telefono: {ad.owner.number}</Card.Text>
+              {ad.owner._id == loggedUserId && (
+                <div>
+                  <Button variant="danger" onClick={toggleDeleteModal}>
+                    Borrar
+                  </Button>
+                  <Button variant="primary" className="ml-3" onClick={toggleEditForm}>
+                    Edit Info
+                  </Button>
+                </div>
+              )}
+              {ad.owner._id !== loggedUserId && (
+                <div>
+                    {showPaymentIntent === false ? (
+                      <button onClick={() => setShowPaymentIntent(true)}>
+                        Iniciar Pago
+                      </button>
+                    ) : (
+                      <PaymentIntent ad={ad} />
+                    )}
+                  </div>
+              )}
             </Card.Body>
-            {ad.owner._id == loggedUserId && (
-              <div>
-                <Button variant="danger" onClick={toggleDeleteModal}>
-                  Borrar
-                </Button>
-                <Button variant="primary" onClick={toggleEditForm}>
-                  Edit Info
-                </Button>
-              </div>
-            )}
-
-            
           </Card>
         </div>
       )}
       {ad.type === "service" && (
         <div>
-          <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={ad.photos[0]} />
+          <Card
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              borderRadius: "20px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <Card.Img
+              variant="top"
+              src={ad.photos[0]}
+              style={{
+                width: "300px",
+                border: "5px solid rgb(68, 82, 102)",
+                borderRadius: "10px",
+              }}
+            />
             <Card.Body>
               <Card.Title>{ad.title}</Card.Title>
               <Card.Text>Tipo de Grupo: {ad.brand}</Card.Text>
               <Card.Text>Precio por hora: {ad.cost}</Card.Text>
               <Card.Text>Descripción:{ad.description}</Card.Text>
-              </Card.Body>
-              <Card.Body>
               <Card.Title>Datos de Contacto</Card.Title>
               <Card.Text>Telefono: {ad.owner.number}</Card.Text>
-            </Card.Body>
               {ad.owner._id == loggedUserId && (
-              <div>
-                <Button variant="danger" onClick={toggleDeleteModal}>
-                  Borrar
-                </Button>
-                <Button variant="primary" onClick={toggleEditForm}>
-                  Edit Info
-                </Button>
-              </div>
-            )}
-            
+                <div>
+                  <Button variant="danger" onClick={toggleDeleteModal}>
+                    Borrar
+                  </Button>
+                  <Button variant="primary" className="mt-2" onClick={toggleEditForm}>
+                    Edit Info
+                  </Button>
+                </div>
+              )}
+              {ad.owner._id !== loggedUserId && (
+                <div>
+                    {showPaymentIntent === false ? (
+                      <button onClick={() => setShowPaymentIntent(true)}>
+                        Iniciar Pago
+                      </button>
+                    ) : (
+                      <PaymentIntent ad={ad} />
+                    )}
+                  </div>
+              )}
+            </Card.Body>
+            <Card.Body></Card.Body>
           </Card>
         </div>
       )}
@@ -188,9 +213,16 @@ function AdDetailsPage() {
               width: "900px",
               height: "400px",
               backgroundColor: "white",
+              borderRadius: "20px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              marginTop: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <p>Caja de comentarios</p>
+            <h3 style={{ marginTop: "5px" }}>Caja de comentarios</h3>
             {reviews.length === 0 && (
               <h1>Aun no hay comentarios sobre este grupo</h1>
             )}
@@ -208,31 +240,37 @@ function AdDetailsPage() {
                 </Card.Body>
               </Card>
             ))}
+            <Button
+              style={{ marginBottom: "10px", width: "25%" }}
+              variant="outline-primary"
+              onClick={toggleNewReview}
+            >{showNewReview === false ? <p>Añadir Comentario</p> : <p>Cerrar</p>}
+            </Button>
           </div>
-          <Button variant="outline-primary" onClick={toggleNewReview}>
-            Añadir Comentario
-          </Button>
+
           {showNewReview && (
-            <ModalNewReview
-              newReview={newReview}
-              title={title}
-              setTitle={setTitle}
-              text={text}
-              setText={setText}
-              score={score}
-              setScore={setScore}
-            />
+            <div
+              style={{
+                backgroundColor: "white",
+                borderRadius: "20px",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                marginTop: "10px",
+              }}
+            >
+              <ModalNewReview
+                newReview={newReview}
+                title={title}
+                setTitle={setTitle}
+                text={text}
+                setText={setText}
+                score={score}
+                setScore={setScore}
+              />
+            </div>
           )}
           {errorMessage && <p>{errorMessage}</p>}
         </div>
       )}
-      <div>
-  { 
-    showPaymentIntent === false
-    ? <button onClick={() => setShowPaymentIntent(true)}>Iniciar Compra</button> 
-    : <PaymentIntent productDetails={ ad }/> 
-  }
-</div>
     </div>
   );
 }

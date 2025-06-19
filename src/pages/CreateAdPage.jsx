@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Form, InputGroup, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import axios from "axios";
+import service from "../services/service.config";
 
 function CreateAdPage() {
   const navigate = useNavigate();
@@ -41,15 +41,7 @@ function CreateAdPage() {
 
   const getData = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.get(`/user/profile`);
       setProfileInfo(response.data);
       setOwner(response.data._id);
     } catch (error) {
@@ -78,10 +70,7 @@ function CreateAdPage() {
             ],
         description,
       };
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad`,
-        newAd
-      );
+      const response = await service.post(`/ad`, newAd);
       const createdAdId = response.data._id;
       navigate(`/ad/${createdAdId}`);
     } catch (error) {
@@ -104,10 +93,7 @@ function CreateAdPage() {
     const uploadData = new FormData();
     uploadData.append("image", event.target.files[0]);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-        uploadData
-      );
+      const response = await service.post(`/upload`, uploadData);
       setImageUrl(response.data.imageUrl);
       setPhotos(response.data.imageUrl)
       setIsUploading(false);
@@ -119,14 +105,18 @@ function CreateAdPage() {
   return (
     <div>
       <h1>Crea tu anuncio</h1>
+    <div style={{backgroundColor:"white", borderRadius: "20px",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)"}}>
+      
       <Form onSubmit={handleCreateAd}>
         <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+          <InputGroup.Text style={{marginTop:"10px"}}id="basic-addon1">@</InputGroup.Text>
           <Form.Control
             disabled
             value={profileInfo.username || ""}
             aria-label="Username"
             aria-describedby="basic-addon1"
+            style={{marginTop:"10px"}}
           />
         </InputGroup>
         <InputGroup className="mb-3">
@@ -244,17 +234,18 @@ function CreateAdPage() {
             onChange={handleDescriptionChange}
           />
         </InputGroup>
-        <Form.Label>Foto</Form.Label>
+        <Form.Label><strong>Foto</strong></Form.Label>
         <Form.Control
           type="file"
           onChange={handleFileUpload}
           disabled={isUploading}
         />
-        <Button variant="info" type="submit">
+        <Button variant="info" className="mb-2 mt-3" type="submit">
           Crear
         </Button>
       </Form>
       {errorMessage && <p>{errorMessage}</p>}
+    </div>
     </div>
   );
 }

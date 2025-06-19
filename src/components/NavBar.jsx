@@ -21,47 +21,69 @@ function NavBar() {
 
   return (
     <div>
-      <Nav id="Nav" variant="pills" activeKey="1">
-        <Nav.Item>
-          <Link to="/">
-            <img src="logoMi.png" style={{ width: "70px" }}></img>
-          </Link>
-        </Nav.Item>
-        <NavDropdown title="Buscar" id="nav-dropdown" className="mega-dropdown">
-          <div className="mega-menu px-4 py-3">
-            <Container>
-              <Row id="Row">
-                <Col>
-                  <h6>Instrumentos</h6>
-                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Yamaha">
-                    Yamaha
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Thomann">
-                    Thomann
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Bach">
-                    Bach
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Stentor">
-                    Stentor
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/instruments?brand=Fender">
-                    Fender
-                  </NavDropdown.Item>
-                </Col>
-                <Col>
-                  <h6>Grupos</h6>
-                  <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_desc">
-                    Más Caros
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_asc">
-                    Mas Económicos
-                  </NavDropdown.Item>
-                </Col>
-              </Row>
-            </Container>
-          </div>
-        </NavDropdown>
+      <Nav id="Nav" variant="pills" activeKey="1" style={{display:"flex", alignItems:"center", color:"white", backgroundColor:"rgb(68, 82, 102)"}}>
+        <div style={{display:"flex", alignItems:"center"}}>
+          <Nav.Item>
+            <Link to="/">
+              <img src="logoMi.png" style={{ width: "90px" }}></img>
+            </Link>
+          </Nav.Item>
+          <NavDropdown
+            title="Buscar"
+            id="nav-dropdown"
+            className="mega-dropdown"
+            style={{color:"white"}}
+          >
+            <div className="mega-menu px-4 py-3">
+              <Container>
+                <Row id="Row" style={{display:"flex"}}>
+                  <Col>
+                    <h6>Instrumentos</h6>
+                    <NavDropdown.Item
+                      as={Link}
+                      to="/ads/instruments?brand=Yamaha"
+                    >
+                      Yamaha
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      to="/ads/instruments?brand=Thomann"
+                    >
+                      Thomann
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      to="/ads/instruments?brand=Bach"
+                    >
+                      Bach
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      to="/ads/instruments?brand=Stentor"
+                    >
+                      Stentor
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      to="/ads/instruments?brand=Fender"
+                    >
+                      Fender
+                    </NavDropdown.Item>
+                  </Col>
+                  <Col>
+                    <h6>Grupos</h6>
+                    <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_desc">
+                      Más Caros
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_asc">
+                      Mas Económicos
+                    </NavDropdown.Item>
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          </NavDropdown>
+        </div>
         <NavDropdown title="Mi Cuenta" id="nav-dropdown">
           {isLoggedIn ? (
             <NavDropdown.Item as={Link} to="/user-profile" eventKey="4.1">

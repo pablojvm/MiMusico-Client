@@ -14,7 +14,7 @@ import NavBar from "./components/NavBar";
 import OwnAdsPage from "./pages/OwnAdsPage";
 import CreateAdPage from "./pages/CreateAdPage";
 import OnlyPrivate from "./components/OnlyPrivate"
-import PaymentSuccess from "./PaymentSuccess";
+import PaymentSuccess from "./components/PaymentSuccess";
 
 
 function App() {

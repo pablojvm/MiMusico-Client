@@ -104,15 +104,15 @@ function BannerHome() {
         {activeBanner === "vender" && (
           <Button
             as={Link}
+            id="boton-vender"
             to="/new-ad"
             style={{
               width: "300px",
               height: "300px",
-              backgroundColor: "white",
-              color: "black",
             }}
           >
             Crea tu Propio Anuncio
+            <img src="/pajaro.png" width="250px"/>
           </Button>
         )}
       </Card>

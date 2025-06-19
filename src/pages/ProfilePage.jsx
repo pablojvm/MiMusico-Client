@@ -107,10 +107,7 @@ function ProfilePage() {
     const uploadData = new FormData();
     uploadData.append("image", event.target.files[0]);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-        uploadData
-      );
+      const response = await axios.post(`/upload`, uploadData);
       setImageUrl(response.data.imageUrl);
       setIsUploading(false);
     } catch (error) {
@@ -119,11 +116,11 @@ function ProfilePage() {
   };
 
   if (!profileInfo) {
-    return <p>Cargando información</p>;
+    return <img src="/animatedviolin.gif" />;
   }
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <div
         style={{
           backgroundColor: "white",
@@ -131,27 +128,49 @@ function ProfilePage() {
           height: "450px",
           borderRadius: "20px",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+          display: "flex",
         }}
       >
-        <h1>Mi cuenta</h1>
-        <div>
-          <img src={profileInfo.photo} width="150px" alt="foto de perfil" />
-          <h3>{profileInfo.username}</h3>
-        </div>
-        <h4>Email</h4>
-        <p>{profileInfo.email}</p>
-        <h4>Number</h4>
-        <p>{profileInfo.number}</p>
-        <Button variant="primary" onClick={toggleEditForm}>
-          Editar
-        </Button>
-        <Button
-          variant="outline-danger"
-          className="ms-3"
-          onClick={toggleDeleteModal}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
         >
-          Borrar Usuario
-        </Button>
+          <h1 style={{ marginLeft: "20px", marginTop: "15px" }}>Mi cuenta</h1>
+          <div style={{ display: "flex", marginTop: "20px" }}>
+            <img
+              src={profileInfo.photo}
+              width="250px"
+              height="250px"
+              alt="foto de perfil"
+              style={{
+                border: "5px solid rgb(68, 82, 102)",
+                borderRadius: "10px",
+                marginLeft: "20px",
+              }}
+            />
+            <div style={{ marginLeft: "20px" }}>
+              <h3>{profileInfo.username}</h3>
+              <h4>Email</h4>
+              <p>{profileInfo.email}</p>
+              <h4>Number</h4>
+              <p>{profileInfo.number}</p>
+              <Button variant="primary" onClick={toggleEditForm}>
+                Editar
+              </Button>
+              <Button
+                variant="outline-danger"
+                className="ms-3"
+                onClick={toggleDeleteModal}
+              >
+                Borrar Usuario
+              </Button>
+            </div>
+            {!showEdit && <img src="/pajaro.png" width="400px"/>}
+          </div>
+        </div>
       </div>
       {showEdit === true && (
         <div
@@ -162,6 +181,7 @@ function ProfilePage() {
             borderRadius: "20px",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             marginTop: "20px",
+            marginLeft: "20px",
           }}
         >
           <Form onSubmit={handleFormSubmit}>
@@ -172,6 +192,7 @@ function ProfilePage() {
                 onChange={handleFileUpload}
                 disabled={isUploading}
               />
+              <Form.Label className="mt-4">User</Form.Label>
               <Form.Control
                 type="text"
                 value={username}

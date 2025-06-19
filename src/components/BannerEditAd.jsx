@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -39,15 +39,7 @@ function BannerEditAd({ onClose, onUpdate }) {
 
   const getData = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/${params.adId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.get(`/ad/${params.adId}`);
       setAdInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -76,7 +68,7 @@ function BannerEditAd({ onClose, onUpdate }) {
       brand,
       family,
       state,
-      photos: imageUrl
+      photos: imageUrl,
     };
     await handleUpdate(updatedData);
     if (onUpdate) {
@@ -87,16 +79,7 @@ function BannerEditAd({ onClose, onUpdate }) {
 
   const handleUpdate = async (updatedData) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/${params.adId}`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await service.patch(`/ad/${params.adId}`, updatedData);
     } catch (error) {
       console.log(error);
       navigate("/500");
@@ -104,54 +87,56 @@ function BannerEditAd({ onClose, onUpdate }) {
   };
 
   const handleFileUpload = async (event) => {
-  const files = event.target.files;
-  if (!files || files.length === 0) return;
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
-  setIsUploading(true);
+    setIsUploading(true);
 
-  const uploadData = new FormData();
-  for (let file of files) {
-    uploadData.append("image", file); // nombre 'image' debe coincidir con backend
-  }
+    const uploadData = new FormData();
+    for (let file of files) {
+      uploadData.append("image", file);
+    }
 
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-      uploadData
-    );
-    console.log("Response upload:", response.data);
-    setImageUrl(response.data.imageUrl)
-  } catch (error) {
-    console.log("Error subiendo imagen:", error);
-    navigate("/error");
-  }
-
-  setIsUploading(false);
-};
+    try {
+      const response = await service.post(`/upload`, uploadData);
+      setImageUrl(response.data.imageUrl);
+    } catch (error) {
+      console.log("Error subiendo imagen:", error);
+      navigate("/error");
+    }
+    setIsUploading(false);
+  };
 
   return (
-    <div>
+    <div
+      style={{
+        borderRadius: "20px",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+        marginTop:"15px"
+      }}
+    >
       <Form
         onSubmit={handleSubmit}
         style={{ backgroundColor: "white", borderRadius: "20px" }}
       >
         <Form.Group className="mb-3" controlId="formBasicUsername">
-          <Form.Label>Title</Form.Label>
+          <Form.Label><strong>Title</strong></Form.Label>
           <Form.Control
             type="text"
             value={title}
             onChange={handleTitleChange}
           />
         </Form.Group>
-        <Form.Select
+        {/* <Form.Select
           aria-label="Default select example"
           value={type}
           onChange={handleTypeChange}
+          className="mb-4"
         >
           <option>Type</option>
           <option value="instrument">Instrumento</option>
           <option value="service">Grupo</option>
-        </Form.Select>
+        </Form.Select> */}
 
         {adInfo.type === "instrument" && (
           <div>
@@ -168,7 +153,7 @@ function BannerEditAd({ onClose, onUpdate }) {
               <option value="Percusión">Percusión</option>
             </Form.Select>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Marca</Form.Label>
+              <Form.Label><strong>Marca</strong></Form.Label>
               <Form.Control
                 type="text"
                 value={brand}
@@ -176,7 +161,7 @@ function BannerEditAd({ onClose, onUpdate }) {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Model</Form.Label>
+              <Form.Label><strong>Modelo</strong></Form.Label>
               <Form.Control
                 type="text"
                 value={model}
@@ -184,7 +169,7 @@ function BannerEditAd({ onClose, onUpdate }) {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Estado</Form.Label>
+              <Form.Label><strong>Estado</strong></Form.Label>
               <Form.Control
                 type="text"
                 value={state}
@@ -210,7 +195,7 @@ function BannerEditAd({ onClose, onUpdate }) {
         )}
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Cost</Form.Label>
+          <Form.Label><strong>Cost</strong></Form.Label>
           <Form.Control
             type="number"
             value={cost}
@@ -219,31 +204,26 @@ function BannerEditAd({ onClose, onUpdate }) {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicNumber">
-          <Form.Label>Description</Form.Label>
+          <Form.Label><strong>Descripción</strong></Form.Label>
           <Form.Control
             type="text"
             value={description}
             onChange={handleDescriptionChange}
           />
         </Form.Group>
-        <Form.Label>Foto</Form.Label>
+        <Form.Label><strong>Foto</strong></Form.Label>
         <Form.Control
           type="file"
-          
           onChange={handleFileUpload}
           disabled={isUploading}
         />
         <div className="mt-3 d-flex flex-wrap gap-2">
-          <img
-              src={imageUrl}
-              width="100"
-              style={{ borderRadius: "10px" }}
-            />
+          <img src={imageUrl} width="100" style={{ borderRadius: "10px" }} />
         </div>
-        <Button variant="danger" onClick={onClose}>
+        <Button style={{marginBottom:"10px"}} variant="danger" onClick={onClose}>
           Close
         </Button>
-        <Button variant="primary" className="ms-3" type="submit">
+        <Button style={{marginBottom:"10px"}} variant="primary" className="ms-3" type="submit">
           Editar
         </Button>
       </Form>

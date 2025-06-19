@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
 
 function BarraBusqueda({ ads, busqueda, setBusqueda }) {
@@ -39,7 +38,7 @@ function BarraBusqueda({ ads, busqueda, setBusqueda }) {
                   <Card.Body>
                     <Card.Title className="d-flex justify-content-between align-items-start">
                       <div>
-                        <strng>{eachAd.title}</strng>
+                        <strong>{eachAd.title}</strong>
                           <br></br>
                         <strong>
                           {eachAd.brand} {eachAd.model}

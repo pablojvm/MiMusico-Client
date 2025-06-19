@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useEffect, useState } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -25,9 +25,7 @@ function GroupsPage() {
 
   const getData = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/groups`
-      );
+      const response = await service.get(`/ad/groups`);
       setAds(response.data);
     } catch (error) {
       console.log(error);
@@ -47,7 +45,6 @@ function GroupsPage() {
     return coincideBusqueda && coincidePrecio && coincideFamilia;
   });
 
-  // Ordenar según el parámetro "sort"
   let anunciosOrdenados = [...anunciosFiltrados];
 
   if (sort === "cost_asc") {

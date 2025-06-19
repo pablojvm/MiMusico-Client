@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import service from "../services/service.config";
 import { Button, Card } from "react-bootstrap";
 import { AuthContext } from "../context/auth.context";
 import ModalEliminarReview from "../components/ModalEliminarReview";
 import EditorReview from "../components/EditorReview";
+import { Link } from "react-router-dom";
 
 function OwnReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -26,12 +27,7 @@ function OwnReviewsPage() {
   const reviewsByCreator = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/review/own`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await service.get(`/review/own`);
       setReviews(response.data);
     } catch (error) {
       console.error(error);
@@ -40,14 +36,8 @@ function OwnReviewsPage() {
 
   const eliminarReview = async (reviewId) => {
     try {
-      const token = localStorage.getItem("authToken");
-      await axios.delete(
-        `${import.meta.env.VITE_SERVER_URL}/api/review/${reviewId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      // Filtra la review eliminada del estado
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/review/${reviewId}`);
       setReviews((prev) => prev.filter((r) => r._id !== reviewId));
       setModalEliminar(false);
     } catch (error) {
@@ -55,7 +45,6 @@ function OwnReviewsPage() {
     }
   };
 
-  // Abre el editor con la review seleccionada cargada
   const abrirEditor = (review) => {
     setSelectedReview(review);
     setTitle(review.title);
@@ -72,18 +61,9 @@ function OwnReviewsPage() {
     setScore(1);
   };
 
-  // Actualiza la review en backend
   const updateData = async (reviewId, updatedReview) => {
     try {
-      const token = localStorage.getItem("authToken");
-      await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/api/review/${reviewId}`,
-        updatedReview,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      // Refresca las reviews para mostrar cambios
+      await service.patch(`/review/${reviewId}`, updatedReview);
       await reviewsByCreator();
       cerrarEditor();
     } catch (error) {
@@ -91,7 +71,10 @@ function OwnReviewsPage() {
     }
   };
 
-  // Manejador submit que pasa datos a updateData
+  if (!reviews) {
+    return <img src="/animatedviolin.gif"/>;
+  }
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const updatedData = { title, text, score };
@@ -108,7 +91,7 @@ function OwnReviewsPage() {
       ) : (
         <>
           {reviews.map((eachReview) => (
-            <Card key={eachReview._id} className="mb-3">
+            <Card style={{textDecoration:"none"}} as={Link} to={`/ad/${eachReview.ad._id}`} key={eachReview._id} className="mb-3">
               <Card.Header>{eachReview.title}</Card.Header>
               <Card.Body>
                 <blockquote className="blockquote mb-0">

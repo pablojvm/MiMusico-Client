@@ -1,4 +1,4 @@
-import axios from "axios";
+import service from "../services/service.config";
 import { useEffect, useState, useMemo } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -36,9 +36,7 @@ function InstrumentsPage() {
 
   const getData = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/ad/instruments`
-      );
+      const response = await service.get(`/ad/instruments`);
       setAds(response.data);
     } catch (error) {
       console.log(error);
@@ -65,10 +63,7 @@ function InstrumentsPage() {
   }, [ads, busqueda, precioMax, estado, marca, familia]);
 
   return (
-    <div>
-      <div>
-        <h1>Instrumentos de Segunda Mano</h1>
-      </div>
+    <div style={{marginTop:"80px", display:"block"}}>
       <div>
         <BarraBusqueda
           ads={ads}
@@ -102,7 +97,7 @@ function InstrumentsPage() {
                 <Card
                   className="mb-4 shadow-sm"
                   key={idx}
-                  style={{ height: "200px" }}
+                  style={{ height: "230px" }}
                 >
                   <Row>
                     <Col md={5}>

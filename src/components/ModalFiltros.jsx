@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form, Accordion } from "react-bootstrap";
 
 function ModalFiltros({ precioMax, setPrecioMax, marca, setMarca, estado, setEstado, familia, setFamilia}) {
