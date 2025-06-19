@@ -12,7 +12,7 @@ function useQuery() {
 function GroupsPage() {
   const navigate = useNavigate();
   const query = useQuery();
-  const sort = query.get("sort"); // "cost_asc" o "cost_desc"
+  const sort = query.get("sort");
 
   const [ads, setAds] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -45,8 +45,6 @@ function GroupsPage() {
     return coincideBusqueda && coincidePrecio && coincideFamilia;
   });
 
-  let anunciosOrdenados = [...anunciosFiltrados];
-
   if (sort === "cost_asc") {
     anunciosFiltrados.sort((a, b) => a.cost - b.cost);
   } else if (sort === "cost_desc") {
@@ -54,7 +52,7 @@ function GroupsPage() {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: "80px", display: "block" }}>
       <BarraBusqueda ads={ads} busqueda={busqueda} setBusqueda={setBusqueda} />
       <div style={{ display: "flex" }}>
         <div>
@@ -65,8 +63,7 @@ function GroupsPage() {
             setFamilia={setFamilia}
           />
         </div>
-
-        <div>
+        {busqueda.trim() === "" && <div>
           {anunciosFiltrados.length === 0 ? (
             <Card className="mb-4 shadow-sm text-center">
               <Card.Body>
@@ -129,7 +126,8 @@ function GroupsPage() {
           )}
 
           {ads.length === 0 && <p>Aún no hay instrumentos publicados</p>}
-        </div>
+        </div>}
+        
       </div>
     </div>
   );
