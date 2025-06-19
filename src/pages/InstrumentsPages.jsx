@@ -23,7 +23,9 @@ function InstrumentsPage() {
 
   useEffect(() => {
     const qBrand = query.get("brand") || "";
+    const qFamily= query.get("familia")
     setMarca(qBrand);
+    setFamilia(qFamily)
     getData();
   }, [location.search]);
 
@@ -45,13 +47,14 @@ function InstrumentsPage() {
 
     const coincidePrecio = ad.cost <= precioMax;
     const coincideMarca = marca === "" || ad.brand === marca;
+    const coincideFamilia = familia === "" || ad.family === familia;
 
-    return coincideBusqueda && coincidePrecio && coincideMarca;
+    return coincideBusqueda && coincideFamilia && coincidePrecio && coincideMarca;
   });
 
   return (
-    <div>
-      <div style={{ marginTop: "80px", display: "block" }}>
+    <div style={{ display: "flex", flexDirection:"column", justifyContent:"flex-start"}}>
+      <div style={{ display: "flex", flexDirection:"column"}}>
         <div>
           <BarraBusqueda
             ads={ads}
@@ -75,7 +78,7 @@ function InstrumentsPage() {
           {busqueda.trim() === "" && (
             <div>
               {anunciosFiltrados.length === 0 ? (
-                <Card className="mb-4 shadow-sm text-center">
+                <Card className="mb-4 shadow-sm text-center" style={{width:"1000px"}}>
                   <Card.Body>
                     <img src="/coincidences.png" width="400px" />
                   </Card.Body>

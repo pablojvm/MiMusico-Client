@@ -4,7 +4,8 @@ function IdentificationPage() {
   return (
     <div id="primer">
       <h3>Compra y vende instrumentos de segunda mano o contrata al mejor grupo para tu mejor ocasión</h3>
-      <IdentificationBanner/>
+      <div style={{marginRight:"30px"}}><IdentificationBanner /></div>
+      
     </div>
   )
 }

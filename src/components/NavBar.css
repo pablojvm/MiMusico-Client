@@ -15,7 +15,8 @@
     flex-direction: row;
 }
 
-.nav-dropdown{
-    background-color: red;
-    color: white
+#nav-dropdown{
+    background-color: #ffffff !important;
+    color: rgb(68, 82, 102) !important;
+    border-radius: 30px;
 }

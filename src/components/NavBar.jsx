@@ -25,17 +25,18 @@ function NavBar() {
         <div style={{display:"flex", alignItems:"center"}}>
           <Nav.Item>
             <Link to="/">
-              <img src="logoMi.png" style={{ width: "90px" }}></img>
+              <img src="logoblanco.png" style={{ width: "90px", marginLeft:"15px", marginRight:"15px" }}></img>
             </Link>
           </Nav.Item>
           <NavDropdown
             title="Buscar"
             id="nav-dropdown"
+            
             className="mega-dropdown"
             style={{color:"white"}}
           >
-            <div className="mega-menu px-4 py-3">
-              <Container>
+            <div className="mega-menu px-4 py-3" >
+              <Container variant="secondary">
                 <Row id="Row" style={{display:"flex"}}>
                   <Col>
                     <h6>Instrumentos</h6>
@@ -84,7 +85,7 @@ function NavBar() {
             </div>
           </NavDropdown>
         </div>
-        <NavDropdown title="Mi Cuenta" id="nav-dropdown">
+        <NavDropdown title="Mi Cuenta" id="nav-dropdown" style={{marginRight:"20px"}}>
           {isLoggedIn ? (
             <NavDropdown.Item as={Link} to="/user-profile" eventKey="4.1">
               Perfil
