@@ -25,7 +25,7 @@ function BannerHome() {
 
   return (
     <div className="container mt-5">
-      <Card className="p-4 shadow" style={{ borderRadius: "20px", maxWidth: "500px" }}>
+      <Card className="p-4 shadow" id="bannerHome" style={{ borderRadius: "20px", maxWidth: "100%" }}>
         <Nav
           variant="tabs"
           defaultActiveKey="comprar"

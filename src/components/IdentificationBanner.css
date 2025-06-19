@@ -1,9 +1,0 @@
-#primer{
-    background-image: url("/fotofondo.jpeg");
-    background-size: cover;
-    width: 1000px;
-    height: 500px;
-    border-radius: 20px;
-    color: azure;
-    display: flex;
-}

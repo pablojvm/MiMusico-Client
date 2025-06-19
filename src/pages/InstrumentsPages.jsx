@@ -23,7 +23,7 @@ function InstrumentsPage() {
 
   useEffect(() => {
     const qBrand = query.get("brand") || "";
-    const qFamily= query.get("familia")
+    const qFamily= query.get("familia") || ""
     setMarca(qBrand);
     setFamilia(qFamily)
     getData();
@@ -48,8 +48,9 @@ function InstrumentsPage() {
     const coincidePrecio = ad.cost <= precioMax;
     const coincideMarca = marca === "" || ad.brand === marca;
     const coincideFamilia = familia === "" || ad.family === familia;
+    const coincideEstado = estado === "" || ad.state === estado;
 
-    return coincideBusqueda && coincideFamilia && coincidePrecio && coincideMarca;
+    return coincideBusqueda && coincideFamilia && coincidePrecio && coincideMarca && coincideEstado 
   });
 
   return (

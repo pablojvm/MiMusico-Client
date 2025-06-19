@@ -4,7 +4,7 @@ import "./CardsFamily.css"
 
 function CardsFamily() {
   return (
-    <div style={{display:'flex', flexDirection:"row", justifyContent:"space-around"}}>
+    <div id="cardsFamily">
       <Card id="Card" as={Link} to="/ads/instruments?familia=Viento Madera">
       <Card.Body>
         <Card.Title>Viento Madera</Card.Title>
