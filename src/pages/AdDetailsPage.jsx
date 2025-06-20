@@ -12,7 +12,7 @@ function AdDetailsPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { loggedUserId } = useContext(AuthContext);
+  const { loggedUserId, isLoggedIn } = useContext(AuthContext);
 
   const [ad, setAd] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -27,7 +27,14 @@ function AdDetailsPage() {
 
   const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
   const toggleEditForm = () => setShowEdit(!showEdit);
-  const toggleNewReview = () => setShowNewReview(!showNewReview);
+  const toggleNewReview = () => {
+  if (!isLoggedIn) {
+    alert("Debes estar logueado para dejar una reseña.");
+    return;
+  }
+
+  setShowNewReview(prev => !prev);
+};
 
   useEffect(() => {
     getData();
