@@ -99,7 +99,7 @@ function AdDetailsPage() {
   }
   return (
     <div>
-      <h1 style={{ marginTop: "70px" }}>Detalles del anuncio</h1>
+      <h1>Detalles del anuncio</h1>
       {ad.type === "instrument" && (
         <div style={{display:"flex", alignItems:"center"}}>
           <Card
