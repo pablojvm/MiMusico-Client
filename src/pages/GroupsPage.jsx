@@ -52,7 +52,7 @@ function GroupsPage() {
   }
 
   return (
-    <div style={{ marginTop: "80px", display: "block" }}>
+    <div>
       <BarraBusqueda ads={ads} busqueda={busqueda} setBusqueda={setBusqueda} />
       <div style={{ display: "flex" }}>
         <div>
