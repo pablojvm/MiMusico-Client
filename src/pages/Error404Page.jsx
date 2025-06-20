@@ -3,7 +3,7 @@ import React from 'react'
 function Error404Page() {
   return (
     <div>
-      <h1>Pagina de error 404</h1>
+      <img src="/error404si.png" width="1000px"/>
     </div>
   )
 }

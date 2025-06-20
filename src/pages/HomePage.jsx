@@ -4,8 +4,8 @@ import CardsFamily from "../components/CardsFamily"
 
 function HomePage() {
   return (
-    <div id="primero">
-      <div id="segundo">
+    <div id="primero" style={{display:"flex", flexDirection:"column"}}>
+      <div id="segundo" style={{display:"flex", justifyContent:"space-around"}}>
         <h3>Ponle banda sonora a tu vida al mejor precio</h3>
         <BannerHome/>
       </div>

@@ -3,7 +3,7 @@ import React from 'react'
 function Error500Page() {
   return (
     <div>
-      <h1>Pagina de errorn 500</h1>
+      <img src="/error500.png" width="1000px"/>
     </div>
   )
 }
