@@ -232,8 +232,9 @@ function AdDetailsPage() {
                 <Card.Body>
                   <blockquote className="blockquote mb-0">
                     <p>{eachReview.text}</p>
+                    <p>{"⭐".repeat(eachReview.score)}</p>
                     <footer className="blockquote-footer">
-                      {"⭐".repeat(eachReview.score)}
+                      <strong>{eachReview.creator.username}</strong>
                       <cite title="Source Title"></cite>
                     </footer>
                   </blockquote>
