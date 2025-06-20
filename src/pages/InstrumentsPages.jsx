@@ -23,9 +23,13 @@ function InstrumentsPage() {
 
   useEffect(() => {
     const qBrand = query.get("brand") || "";
-    const qFamily= query.get("familia") || ""
+    const qFamily = query.get("familia") || "";
+    const qPrecio = query.get("precioMax") || "";
+    const qEstado = query.get("estado") || "";
     setMarca(qBrand);
-    setFamilia(qFamily)
+    setPrecioMax(qPrecio)
+    setEstado(qEstado)
+    setFamilia(qFamily);
     getData();
   }, [location.search]);
 
@@ -50,12 +54,24 @@ function InstrumentsPage() {
     const coincideFamilia = familia === "" || ad.family === familia;
     const coincideEstado = estado === "" || ad.state === estado;
 
-    return coincideBusqueda && coincideFamilia && coincidePrecio && coincideMarca && coincideEstado 
+    return (
+      coincideBusqueda &&
+      coincideFamilia &&
+      coincidePrecio &&
+      coincideMarca &&
+      coincideEstado
+    );
   });
 
   return (
-    <div style={{ display: "flex", flexDirection:"column", justifyContent:"flex-start"}}>
-      <div style={{ display: "flex", flexDirection:"column"}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <div>
           <BarraBusqueda
             ads={ads}
@@ -79,7 +95,10 @@ function InstrumentsPage() {
           {busqueda.trim() === "" && (
             <div>
               {anunciosFiltrados.length === 0 ? (
-                <Card className="mb-4 shadow-sm text-center" style={{width:"1000px"}}>
+                <Card
+                  className="mb-4 shadow-sm text-center"
+                  style={{ width: "1000px" }}
+                >
                   <Card.Body>
                     <img src="/coincidences.png" width="400px" />
                   </Card.Body>

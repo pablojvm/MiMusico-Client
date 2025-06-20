@@ -117,7 +117,7 @@ function AdDetailsPage() {
               <Card.Text>Marca: {ad.brand}</Card.Text>
               <Card.Text>Modelo: {ad.model}</Card.Text>
               <Card.Text>Estado: {ad.state}</Card.Text>
-              <Card.Text>Precio: {ad.cost}</Card.Text>
+              <Card.Text>Precio: {ad.cost}€</Card.Text>
               <Card.Text>Descripción: {ad.description}</Card.Text>
               <Card.Title>Datos de Contacto</Card.Title>
               <Card.Text>Telefono: {ad.owner.number}</Card.Text>
