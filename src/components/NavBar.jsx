@@ -42,31 +42,31 @@ function NavBar() {
                     <h6>Instrumentos</h6>
                     <NavDropdown.Item
                       as={Link}
-                      to="/ads/instruments?brand=Yamaha"
+                      to="/ads/instruments?marca=Yamaha"
                     >
                       Yamaha
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
-                      to="/ads/instruments?brand=Thomann"
+                      to="/ads/instruments?marca=Thomann"
                     >
                       Thomann
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
-                      to="/ads/instruments?brand=Bach"
+                      to="/ads/instruments?marca=Bach"
                     >
                       Bach
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
-                      to="/ads/instruments?brand=Stentor"
+                      to="/ads/instruments?marca=Stentor"
                     >
                       Stentor
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
-                      to="/ads/instruments?brand=Fender"
+                      to="/ads/instruments?marca=Fender"
                     >
                       Fender
                     </NavDropdown.Item>

@@ -1,12 +1,19 @@
-# React + Vite
+# MiMusico
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Con esta aplicación podras encontrar instrumentos de ocasión y grupos de música para ponerle banda sonora a tu evento.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Funciones
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Sistema de autenticación
+- Creacion, edicion y eliminación de anuncios
+- Creacion, edicion y eliminación de reviews
+- Barra de busqueda y filtros por diferentes atributos
+- Paga desde la pagina de una forma segura
+- Personaliza tu perfil y tus anuncios subiendo tus fotos de forma local
+
+## Enlaces
+
+- Deploy: https://mimusico.netlify.app/
+- Slides: https://www.canva.com/design/DAGq4-KQtIk/IxAYT_CUlpuYtMRDJlvJZg/edit?utm_content=DAGq4-KQtIk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton

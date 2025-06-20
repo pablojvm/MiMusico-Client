@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 90vh;
 }
 
 .anton-regular {
@@ -13,6 +14,7 @@
 
 body {
   background-color: rgb(230, 229, 229);
+  padding-top: 100px;
 }
 
 /* MÓVILES: hasta 767px */

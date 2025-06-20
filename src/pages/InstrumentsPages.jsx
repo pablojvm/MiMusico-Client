@@ -22,9 +22,9 @@ function InstrumentsPage() {
   const [familia, setFamilia] = useState("");
 
   useEffect(() => {
-    const qBrand = query.get("brand") || "";
+    const qBrand = query.get("marca") || "";
     const qFamily = query.get("familia") || "";
-    const qPrecio = query.get("precioMax") || "";
+    const qPrecio = query.get("precioMax") || 5000;
     const qEstado = query.get("estado") || "";
     setMarca(qBrand);
     setPrecioMax(qPrecio)
@@ -42,13 +42,12 @@ function InstrumentsPage() {
       navigate("/500");
     }
   };
-
   const anunciosFiltrados = ads.filter((ad) => {
-    const coincideBusqueda =
+    const coincideBusqueda = (
       busqueda.trim() === "" ||
       ad.title.toLowerCase().includes(busqueda.toLowerCase().trim()) ||
-      ad.description.toLowerCase().includes(busqueda.toLowerCase().trim());
-
+      ad.description.toLowerCase().includes(busqueda.toLowerCase().trim())
+    )
     const coincidePrecio = ad.cost <= precioMax;
     const coincideMarca = marca === "" || ad.brand === marca;
     const coincideFamilia = familia === "" || ad.family === familia;
