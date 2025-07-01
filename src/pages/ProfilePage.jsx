@@ -1,6 +1,6 @@
 import service from "../services/service.config";
 import { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ModalDeleteUser from "../components/ModalDeleteUser";
 
@@ -94,121 +94,137 @@ function ProfilePage() {
   };
 
   if (!profileInfo) {
-    return <img src="/animatedviolin.gif" />;
+    return (
+      <div className="loading-container">
+        <img src="/animatedviolin.gif" alt="Loading..." />
+      </div>
+    );
   }
 
   return (
-    <div style={{ display: "flex" }}>
-      <div
-        style={{
-          backgroundColor: "white",
-          width: "90vw",
-          height: "450px",
-          borderRadius: "20px",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-          display: "flex",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-          }}
-        >
-          <h1 style={{ marginLeft: "20px", marginTop: "15px" }}>Mi cuenta</h1>
-          <div style={{ display: "flex", marginTop: "20px" }}>
-            <img
-              src={profileInfo.photo}
-              width="250px"
-              height="250px"
-              alt="foto de perfil"
-              style={{
-                border: "5px solid rgb(68, 82, 102)",
-                borderRadius: "10px",
-                marginLeft: "20px",
-              }}
-            />
-            <div style={{ marginLeft: "20px" }}>
-              <h3>{profileInfo.username}</h3>
-              <h4>Email</h4>
-              <p>{profileInfo.email}</p>
-              <h4>Number</h4>
-              <p>{profileInfo.number}</p>
-              <Button variant="primary" onClick={toggleEditForm}>
-                Editar
-              </Button>
-              <Button
-                variant="outline-danger"
-                className="ms-3"
-                onClick={toggleDeleteModal}
-              >
-                Borrar Usuario
-              </Button>
-            </div>
-            {!showEdit && <img src="/pajaro.png" width="400px"/>}
-          </div>
-        </div>
-      </div>
-      {showEdit === true && (
-        <div
-          style={{
-            backgroundColor: "white",
-            width: "90vw",
-            height: "40vh",
-            borderRadius: "20px",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-            marginTop: "20px",
-            marginLeft: "20px",
-          }}
-        >
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-              <Form.Label>Foto</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={handleFileUpload}
-                disabled={isUploading}
-              />
-              <Form.Label className="mt-4">User</Form.Label>
-              <Form.Control
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicNumber">
-              <Form.Label>Number</Form.Label>
-              <Form.Control
-                type="text"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
-              />
-            </Form.Group>
+    <Container fluid className="profile-container">
+      <Row className="justify-content-center">
+        <Col xs={12} lg={10} xl={8}>
+          <Card className="profile-card">
+            <Card.Body>
+              <h1 className="profile-title">Mi cuenta</h1>
+              
+              <Row className="profile-content">
+                <Col xs={12} md={6} lg={4} className="profile-image-col">
+                  <div className="profile-image-container">
+                    <img
+                      src={profileInfo.photo}
+                      alt="foto de perfil"
+                      className="profile-image"
+                    />
+                  </div>
+                </Col>
+                
+                <Col xs={12} md={6} lg={5} className="profile-info-col">
+                  <div className="profile-info">
+                    <h3 className="username">{profileInfo.username}</h3>
+                    <div className="info-section">
+                      <h4>Email</h4>
+                      <p>{profileInfo.email}</p>
+                    </div>
+                    <div className="info-section">
+                      <h4>Number</h4>
+                      <p>{profileInfo.number}</p>
+                    </div>
+                    <div className="button-group">
+                      <Button variant="primary" onClick={toggleEditForm} className="mb-2 me-2">
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        onClick={toggleDeleteModal}
+                        className="mb-2"
+                      >
+                        Borrar Usuario
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+                
+                <Col xs={12} lg={3} className="profile-decoration-col">
+                  {!showEdit && (
+                    <div className="decoration-image">
+                      <img src="/pajaro.png" alt="Decoración" className="bird-image" />
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
-            <Button variant="danger" onClick={toggleEditForm}>
-              Close
-            </Button>
-            <Button variant="primary" className="ms-3" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </div>
-      )}
+          {showEdit && (
+            <Card className="edit-card mt-4">
+              <Card.Body>
+                <h3 className="mb-4">Editar Perfil</h3>
+                <Form onSubmit={handleFormSubmit}>
+                  <Row>
+                    <Col xs={12} md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Foto</Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={handleFileUpload}
+                          disabled={isUploading}
+                        />
+                      </Form.Group>
+                      
+                      <Form.Group className="mb-3">
+                        <Form.Label>Usuario</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={username || ''}
+                          onChange={(e) => setUsername(e.target.value)}
+                        />
+                      </Form.Group>
+                    </Col>
+                    
+                    <Col xs={12} md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                          type="email"
+                          value={email || ''}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </Form.Group>
+                      
+                      <Form.Group className="mb-3">
+                        <Form.Label>Número</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={number || ''}
+                          onChange={(e) => setNumber(e.target.value)}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  
+                  <div className="form-buttons">
+                    <Button variant="danger" onClick={toggleEditForm} className="me-2">
+                      Cerrar
+                    </Button>
+                    <Button variant="primary" type="submit" disabled={isUploading}>
+                      {isUploading ? 'Guardando...' : 'Guardar'}
+                    </Button>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          )}
+        </Col>
+      </Row>
+
       <ModalDeleteUser
         show={showDeleteModal}
         handleClose={toggleDeleteModal}
         handleDelete={handleDelete}
       />
-    </div>
+    </Container>
   );
 }
 

@@ -16,7 +16,7 @@ function BarraBusqueda({ ads, busqueda, setBusqueda }) {
         placeholder="Buscar por título, marca o descripción..."
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
-        className="mb-4"
+        className="mb-4 mt-4"
         size="lg"
       />
 

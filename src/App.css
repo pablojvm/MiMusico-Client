@@ -357,3 +357,290 @@ h1 {
     font-size: 2.2rem;
   }
 }
+
+/* ProfilePage.css */
+
+.profile-container {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.profile-card {
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+  min-height: 450px;
+}
+
+.profile-title {
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.profile-content {
+  align-items: center;
+}
+
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 100%;
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border: 5px solid rgb(68, 82, 102);
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.02);
+}
+
+.profile-info-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-info {
+  padding: 0 15px;
+}
+
+.username {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.info-section {
+  margin-bottom: 15px;
+}
+
+.info-section h4 {
+  color: rgb(68, 82, 102);
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.info-section p {
+  color: #555;
+  margin-bottom: 0;
+  font-size: 1rem;
+}
+
+.button-group {
+  margin-top: 25px;
+}
+
+.profile-decoration-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.decoration-image {
+  text-align: center;
+}
+
+.bird-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  transition: transform 0.3s ease;
+}
+
+.bird-image:hover {
+  transform: translateY(-5px);
+}
+
+.edit-card {
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Responsive breakpoints */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 15px;
+  }
+  
+  .profile-card {
+    min-height: auto;
+  }
+  
+  .profile-content {
+    text-align: center;
+  }
+  
+  .profile-info {
+    padding: 20px 0 0 0;
+  }
+  
+  .username {
+    font-size: 1.8rem;
+  }
+  
+  .bird-image {
+    max-height: 200px;
+    margin-top: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .button-group .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .form-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .form-buttons .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+  .profile-container {
+    padding: 10px;
+  }
+  
+  .profile-title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .profile-image {
+    max-width: 200px;
+    height: 200px;
+  }
+  
+  .username {
+    font-size: 1.6rem;
+  }
+  
+  .info-section h4 {
+    font-size: 1rem;
+  }
+  
+  .info-section p {
+    font-size: 0.9rem;
+  }
+  
+  .bird-image {
+    max-height: 150px;
+  }
+  
+  .edit-card .card-body {
+    padding: 20px 15px;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+  }
+  
+  .form-buttons .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .profile-container {
+    padding: 8px;
+  }
+  
+  .profile-image {
+    max-width: 180px;
+    height: 180px;
+  }
+  
+  .profile-title {
+    font-size: 1.6rem;
+  }
+  
+  .username {
+    font-size: 1.4rem;
+  }
+  
+  .bird-image {
+    max-height: 120px;
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+  .profile-container {
+    padding: 40px;
+  }
+  
+  .profile-card {
+    min-height: 500px;
+  }
+  
+  .bird-image {
+    max-height: 350px;
+  }
+}
+
+/* Hover effects for larger screens */
+@media (min-width: 768px) {
+  .btn {
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
