@@ -26,7 +26,6 @@ function OwnReviewsPage() {
 
   const reviewsByCreator = async () => {
     try {
-      const token = localStorage.getItem("authToken");
       const response = await service.get(`/review/own`);
       setReviews(response.data);
     } catch (error) {
@@ -36,8 +35,7 @@ function OwnReviewsPage() {
 
   const eliminarReview = async (reviewId) => {
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER_URL}/review/${reviewId}`);
+      await service.delete(`/review/${reviewId}`);
       setReviews((prev) => prev.filter((r) => r._id !== reviewId));
       setModalEliminar(false);
     } catch (error) {
@@ -72,7 +70,7 @@ function OwnReviewsPage() {
   };
 
   if (!reviews) {
-    return <img src="/animatedviolin.gif"/>;
+    return <img src="/animatedviolin.gif" alt="Cargando..." />;
   }
 
   const handleFormSubmit = async (e) => {
@@ -84,16 +82,27 @@ function OwnReviewsPage() {
   };
 
   return (
-    <div>
-      <h1>Mis Comentarios</h1>
+    <div className="own-reviews-page">
+      <h1 className="page-title text-center mb-4">Mis Comentarios</h1>
       {reviews.length === 0 ? (
-        <h2>Aún no creaste ningún comentario</h2>
+        <div className="empty-state text-center">
+          <img
+            src="/coincidences.png"
+            alt="Sin comentarios"
+            style={{ maxWidth: 280, width: "100%" }}
+          />
+          <h2 className="mt-3 text-muted">Aún no creaste ningún comentario</h2>
+        </div>
       ) : (
-        <>
+        <div className="reviews-grid">
           {reviews.map((eachReview) => (
-            <Card style={{textDecoration:"none"}} as={Link} to={`/ad/${eachReview.ad._id}`} key={eachReview._id} className="mb-3">
-              <Card.Header>{eachReview.title}</Card.Header>
-              <Card.Body>
+            <Card key={eachReview._id} className="own-review-card mb-3">
+              <Card.Body
+                as={Link}
+                to={`/ad/${eachReview.ad?._id ?? ""}`}
+                className="text-decoration-none text-reset"
+              >
+                <Card.Title>{eachReview.title}</Card.Title>
                 <blockquote className="blockquote mb-0">
                   <p>{eachReview.text}</p>
                   <footer className="blockquote-footer">
@@ -101,9 +110,10 @@ function OwnReviewsPage() {
                   </footer>
                 </blockquote>
               </Card.Body>
-              <div>
+              <div className="own-review-actions">
                 <Button
                   variant="outline-danger"
+                  size="sm"
                   onClick={() => {
                     setSelectedReview(eachReview);
                     setModalEliminar(true);
@@ -113,6 +123,7 @@ function OwnReviewsPage() {
                 </Button>
                 <Button
                   variant="outline-primary"
+                  size="sm"
                   onClick={() => abrirEditor(eachReview)}
                 >
                   Editar
@@ -129,8 +140,8 @@ function OwnReviewsPage() {
               setText={setText}
               score={score}
               setScore={setScore}
-              onSubmit={handleFormSubmit} // Pasamos el handler para submit
-              onCancel={cerrarEditor} // Opción para cerrar editor sin guardar
+              onSubmit={handleFormSubmit}
+              onCancel={cerrarEditor}
             />
           )}
 
@@ -141,11 +152,10 @@ function OwnReviewsPage() {
               toggleModalEliminar={() => setModalEliminar(false)}
             />
           )}
-        </>
+        </div>
       )}
     </div>
   );
 }
 
 export default OwnReviewsPage;
-

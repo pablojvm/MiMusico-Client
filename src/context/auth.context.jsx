@@ -11,6 +11,13 @@ function AuthWrapper(props) {
   const authenticateUser = async () => {
     const authToken = localStorage.getItem("authToken");
 
+    if (!authToken) {
+      setIsLoggedIn(false);
+      setLoggedUserId(null);
+      setIsValidatingToken(false);
+      return;
+    }
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/api/auth/verify`,
@@ -23,10 +30,10 @@ function AuthWrapper(props) {
 
       setIsLoggedIn(true);
       setLoggedUserId(response.data.payload._id);
-      setIsValidatingToken(false);
-    } catch (error) {
+    } catch {
       setIsLoggedIn(false);
       setLoggedUserId(null);
+    } finally {
       setIsValidatingToken(false);
     }
   };
@@ -43,11 +50,26 @@ function AuthWrapper(props) {
 
   if (isValidatingToken) {
     return (
-      <div>
-        <h3>...validando usuario</h3>
-        <img src="loading.gif"/>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          gap: "1rem",
+          backgroundColor: "var(--mm-bg)",
+        }}
+      >
+        <img
+          src="/animatedviolin.gif"
+          alt="Cargando MiMusico..."
+          style={{ width: "min(220px, 40vw)" }}
+        />
+        <h3 style={{ color: "var(--mm-navy)", fontFamily: "Anton, sans-serif" }}>
+          Validando usuario...
+        </h3>
       </div>
-      // hacer esta animacion muy bien hecha!!! muy importante
     );
   }
 

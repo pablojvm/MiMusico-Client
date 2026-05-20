@@ -1,22 +1,81 @@
-#Nav {
-    background-color:white; 
-    border-radius:40px; 
-    display: flex;
-    justify-content:space-between;
-    text-align: center;
-    width:90vw;
-    position: absolute;
-    top: 10px;
-    left: 5%;
+.mm-navbar {
+  background-color: rgba(68, 82, 102, 0.92) !important;
+  backdrop-filter: saturate(150%) blur(10px);
+  -webkit-backdrop-filter: saturate(150%) blur(10px);
+  border-radius: 999px;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 1180px;
+  z-index: 1030;
+  padding: 0.4rem 1rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.row {
-    display: flex;
-    flex-direction: row;
+.mm-navbar .navbar-brand img {
+  width: 78px;
+  height: auto;
+  display: block;
 }
 
-#nav-dropdown{
-    background-color: #ffffff !important;
-    color: rgb(68, 82, 102) !important;
-    border-radius: 30px;
+.mm-navbar .nav-link,
+.mm-navbar .dropdown-toggle {
+  color: #fff !important;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.mm-navbar .nav-link:hover,
+.mm-navbar .dropdown-toggle:hover {
+  color: rgb(151, 228, 236) !important;
+}
+
+.mm-navbar .dropdown-menu {
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  margin-top: 0.4rem;
+}
+
+.mm-navbar .dropdown-item {
+  color: rgb(68, 82, 102);
+  font-weight: 500;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+}
+
+.mm-navbar .dropdown-item:hover {
+  background-color: rgba(151, 228, 236, 0.25);
+  color: rgb(68, 82, 102);
+}
+
+.mm-navbar .navbar-toggler {
+  border: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.mm-navbar .navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.mm-navbar .mega-menu h6 {
+  color: rgb(68, 82, 102);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .mm-navbar {
+    border-radius: 24px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .mm-navbar .mega-menu {
+    min-width: auto !important;
+  }
 }

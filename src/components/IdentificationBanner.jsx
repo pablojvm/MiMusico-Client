@@ -1,4 +1,4 @@
-import { Card, Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { Card, Button, FloatingLabel, Form } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
@@ -16,9 +16,7 @@ function IdentificationBanner() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [buttonSignup, setButtonSignup] = useState("login");
-  //estados modal
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const toggleSignupModal = () => setShowSignupModal(!showSignupModal);
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -27,6 +25,7 @@ function IdentificationBanner() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage(null);
 
     const userCredentials = {
       username,
@@ -34,13 +33,13 @@ function IdentificationBanner() {
     };
 
     try {
-      const response = await service.post(`/auth/login`, userCredentials)
+      const response = await service.post(`/auth/login`, userCredentials);
       localStorage.setItem("authToken", response.data.authToken);
       await authenticateUser();
       navigate("/own-ads");
     } catch (error) {
       console.log(error);
-      if (error.response.status === 400) {
+      if (error.response?.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
       } else {
         setErrorMessage("Algo salió mal. Inténtalo de nuevo.");
@@ -50,6 +49,7 @@ function IdentificationBanner() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setErrorMessage(null);
 
     try {
       const newUser = {
@@ -58,12 +58,12 @@ function IdentificationBanner() {
         number,
         password,
       };
-      const response = await service.post(`/auth/signup`, newUser);
+      await service.post(`/auth/signup`, newUser);
       toggleSignup();
       setShowSignupModal(true);
     } catch (error) {
       console.log(error);
-      if (error.response.status === 400) {
+      if (error.response?.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
       } else {
         setErrorMessage("Algo salió mal. Inténtalo de nuevo.");
@@ -72,15 +72,18 @@ function IdentificationBanner() {
   };
 
   const toggleSignup = () => {
+    setErrorMessage(null);
     setButtonSignup((prev) => (prev === "login" ? "signup" : "login"));
   };
 
   return (
-    <div>
+    <div className="identification-banner">
       {buttonSignup === "login" && (
-        <Card style={{ width: "18rem" }}>
-          <Card.Title>Inicia Sesión</Card.Title>
+        <Card className="identification-card">
           <Card.Body>
+            <Card.Title className="identification-title">
+              Inicia sesión
+            </Card.Title>
             <Form onSubmit={handleLogin}>
               <FloatingLabel
                 controlId="floatingInput"
@@ -107,27 +110,27 @@ function IdentificationBanner() {
                 />
               </FloatingLabel>
 
-              <Button variant="danger" className="w-100 mb-3" type="submit">
-                Accede!
+              <Button variant="primary" className="w-100 mb-3" type="submit">
+                Accede
               </Button>
             </Form>
             <Button
-              variant="secondary"
+              variant="outline-secondary"
               className="w-100"
               onClick={toggleSignup}
             >
-              Aun no tienes cuenta?
+              ¿Aún no tienes cuenta?
             </Button>
           </Card.Body>
         </Card>
       )}
       {buttonSignup === "signup" && (
-        <Card style={{ width: "18rem" }}>
+        <Card className="identification-card">
           <Card.Body>
-            <Card.Title>Regístrate</Card.Title>
+            <Card.Title className="identification-title">Regístrate</Card.Title>
             <Form onSubmit={handleSignup}>
               <FloatingLabel
-                controlId="floatingInput"
+                controlId="signupUsername"
                 label="Username"
                 className="mb-3"
               >
@@ -139,7 +142,7 @@ function IdentificationBanner() {
                 />
               </FloatingLabel>
               <FloatingLabel
-                controlId="floatingPassword"
+                controlId="signupEmail"
                 label="Email"
                 className="mb-3"
               >
@@ -151,19 +154,19 @@ function IdentificationBanner() {
                 />
               </FloatingLabel>
               <FloatingLabel
-                controlId="floatingNumber"
-                label="Number"
+                controlId="signupNumber"
+                label="Número"
                 className="mb-3"
               >
                 <Form.Control
                   type="number"
-                  placeholder="Number"
+                  placeholder="Número"
                   value={number}
                   onChange={handleNumberChange}
                 />
               </FloatingLabel>
               <FloatingLabel
-                controlId="floatingPassword"
+                controlId="signupPassword"
                 label="Password"
                 className="mb-3"
               >
@@ -174,12 +177,12 @@ function IdentificationBanner() {
                   onChange={handlePasswordChange}
                 />
               </FloatingLabel>
-              <Button variant="danger" className="w-100 mb-3" type="submit">
-                Crear
+              <Button variant="primary" className="w-100 mb-3" type="submit">
+                Crear cuenta
               </Button>
             </Form>
             <Button
-              variant="secondary"
+              variant="outline-secondary"
               className="w-100"
               onClick={toggleSignup}
             >
@@ -192,7 +195,9 @@ function IdentificationBanner() {
         show={showSignupModal}
         handleClose={() => setShowSignupModal(false)}
       />
-      {errorMessage && <p style={{ color: "white" }}>{errorMessage}</p>}
+      {errorMessage && (
+        <p className="identification-error">{errorMessage}</p>
+      )}
     </div>
   );
 }

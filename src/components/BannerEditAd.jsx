@@ -9,7 +9,6 @@ function BannerEditAd({ onClose, onUpdate }) {
 
   const [adInfo, setAdInfo] = useState({});
   const [title, setTitle] = useState("");
-  const [type, setType] = useState("");
   const [cost, setCost] = useState("");
   const [description, setDescription] = useState("");
   const [model, setModel] = useState("");
@@ -21,19 +20,19 @@ function BannerEditAd({ onClose, onUpdate }) {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (adInfo.title) {
       setTitle(adInfo.title || "");
-      setType(adInfo.type || "");
       setCost(adInfo.cost || "");
       setDescription(adInfo.description || "");
       setModel(adInfo.model || "");
       setBrand(adInfo.brand || "");
       setFamily(adInfo.family || "");
       setState(adInfo.state || "");
-      setImageUrl(adInfo.photos || "");
+      setImageUrl(adInfo.photos?.[0] || "");
     }
   }, [adInfo]);
 
@@ -48,27 +47,24 @@ function BannerEditAd({ onClose, onUpdate }) {
   };
 
   const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleTypeChange = (e) => setType(e.target.value);
   const handleFamilyChange = (e) => setFamily(e.target.value);
   const handleStateChange = (e) => setState(e.target.value);
   const handleBrandChange = (e) => setBrand(e.target.value);
   const handleModelChange = (e) => setModel(e.target.value);
   const handleCostChange = (e) => setCost(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handlePhotosChange = (e) => setPhotos(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = {
       title,
-      type,
       description,
       cost,
       model,
       brand,
       family,
       state,
-      photos: imageUrl,
+      photos: imageUrl ? [imageUrl] : adInfo.photos,
     };
     await handleUpdate(updatedData);
     if (onUpdate) {
@@ -79,7 +75,7 @@ function BannerEditAd({ onClose, onUpdate }) {
 
   const handleUpdate = async (updatedData) => {
     try {
-      const response = await service.patch(`/ad/${params.adId}`, updatedData);
+      await service.patch(`/ad/${params.adId}`, updatedData);
     } catch (error) {
       console.log(error);
       navigate("/500");
@@ -102,25 +98,17 @@ function BannerEditAd({ onClose, onUpdate }) {
       setImageUrl(response.data.imageUrl);
     } catch (error) {
       console.log("Error subiendo imagen:", error);
-      navigate("/error");
+      navigate("/500");
+    } finally {
+      setIsUploading(false);
     }
-    setIsUploading(false);
   };
 
   return (
-    <div
-      style={{
-        borderRadius: "20px",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-        marginTop:"15px"
-      }}
-    >
-      <Form
-        onSubmit={handleSubmit}
-        style={{ backgroundColor: "white", borderRadius: "20px" }}
-      >
-        <Form.Group className="mb-3" controlId="formBasicUsername">
-          <Form.Label><strong>Title</strong></Form.Label>
+    <div className="banner-edit-ad">
+      <Form onSubmit={handleSubmit} className="banner-edit-form">
+        <Form.Group className="mb-3" controlId="editTitle">
+          <Form.Label><strong>Título</strong></Form.Label>
           <Form.Control
             type="text"
             value={title}
@@ -130,19 +118,18 @@ function BannerEditAd({ onClose, onUpdate }) {
 
         {adInfo.type === "instrument" && (
           <div>
-            <Form.Select
-              aria-label="Default select example"
-              value={family}
-              onChange={handleFamilyChange}
-            >
-              <option>Family</option>
-              <option value="Viento Madera">Viento Madera</option>
-              <option value="Viento Metal">Viento Metal</option>
-              <option value="Cuerda Frotada">Cuerda Frotada</option>
-              <option value="Cuerda Percutida">Cuerda Percutida</option>
-              <option value="Percusión">Percusión</option>
-            </Form.Select>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3">
+              <Form.Label><strong>Familia</strong></Form.Label>
+              <Form.Select value={family} onChange={handleFamilyChange}>
+                <option value="">Familia</option>
+                <option value="Viento Madera">Viento Madera</option>
+                <option value="Viento Metal">Viento Metal</option>
+                <option value="Cuerda Frotada">Cuerda Frotada</option>
+                <option value="Cuerda Percutida">Cuerda Percutida</option>
+                <option value="Percusión">Percusión</option>
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="editBrand">
               <Form.Label><strong>Marca</strong></Form.Label>
               <Form.Control
                 type="text"
@@ -150,7 +137,7 @@ function BannerEditAd({ onClose, onUpdate }) {
                 onChange={handleBrandChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="editModel">
               <Form.Label><strong>Modelo</strong></Form.Label>
               <Form.Control
                 type="text"
@@ -158,34 +145,33 @@ function BannerEditAd({ onClose, onUpdate }) {
                 onChange={handleModelChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="editState">
               <Form.Label><strong>Estado</strong></Form.Label>
-              <Form.Control
-                type="text"
-                value={state}
-                onChange={handleStateChange}
-              />
+              <Form.Select value={state} onChange={handleStateChange}>
+                <option value="">Estado</option>
+                <option value="Nuevo">Nuevo</option>
+                <option value="Seminuevo">Seminuevo</option>
+                <option value="Bueno">Bueno</option>
+                <option value="Correcto">Correcto</option>
+              </Form.Select>
             </Form.Group>
           </div>
         )}
         {adInfo.type === "service" && (
-          <div>
-            <Form.Select
-              aria-label="Default select example"
-              value={family}
-              onChange={handleFamilyChange}
-            >
-              <option>Tipo de grupo</option>
+          <Form.Group className="mb-3">
+            <Form.Label><strong>Tipo de grupo</strong></Form.Label>
+            <Form.Select value={family} onChange={handleFamilyChange}>
+              <option value="">Tipo de grupo</option>
               <option value="Banda">Banda</option>
               <option value="Orquesta">Orquesta</option>
               <option value="Solista">Solista</option>
               <option value="Charanga">Charanga</option>
             </Form.Select>
-          </div>
+          </Form.Group>
         )}
 
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label><strong>Cost</strong></Form.Label>
+        <Form.Group className="mb-3" controlId="editCost">
+          <Form.Label><strong>Precio</strong></Form.Label>
           <Form.Control
             type="number"
             value={cost}
@@ -193,29 +179,44 @@ function BannerEditAd({ onClose, onUpdate }) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicNumber">
+        <Form.Group className="mb-3" controlId="editDescription">
           <Form.Label><strong>Descripción</strong></Form.Label>
           <Form.Control
-            type="text"
+            as="textarea"
+            rows={3}
             value={description}
             onChange={handleDescriptionChange}
           />
         </Form.Group>
-        <Form.Label><strong>Foto</strong></Form.Label>
-        <Form.Control
-          type="file"
-          onChange={handleFileUpload}
-          disabled={isUploading}
-        />
-        <div className="mt-3 d-flex flex-wrap gap-2">
-          <img src={imageUrl} width="100" style={{ borderRadius: "10px" }} />
+
+        <Form.Group className="mb-3">
+          <Form.Label><strong>Foto</strong></Form.Label>
+          <Form.Control
+            type="file"
+            onChange={handleFileUpload}
+            disabled={isUploading}
+          />
+        </Form.Group>
+
+        {imageUrl && (
+          <div className="mt-3 d-flex flex-wrap gap-2">
+            <img
+              src={imageUrl}
+              alt="Vista previa"
+              width="100"
+              style={{ borderRadius: "10px" }}
+            />
+          </div>
+        )}
+
+        <div className="d-flex gap-2 mt-3">
+          <Button variant="outline-secondary" onClick={onClose}>
+            Cerrar
+          </Button>
+          <Button variant="primary" type="submit" disabled={isUploading}>
+            Guardar cambios
+          </Button>
         </div>
-        <Button style={{marginBottom:"10px"}} variant="danger" onClick={onClose}>
-          Close
-        </Button>
-        <Button style={{marginBottom:"10px"}} variant="primary" className="ms-3" type="submit">
-          Editar
-        </Button>
       </Form>
     </div>
   );

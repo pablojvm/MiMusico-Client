@@ -9,25 +9,33 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function PaymentIntent({ ad }) {
   const [clientSecret, setClientSecret] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    handleUseEffect()
-  }, []);
-  
-  const handleUseEffect = async () => {                                                              
-     const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/payment/create-payment-intent`, ad)
-    setClientSecret(response.data.clientSecret)
+    const handleUseEffect = async () => {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/api/payment/create-payment-intent`,
+          ad
+        );
+        setClientSecret(response.data.clientSecret);
+      } catch (err) {
+        console.log(err);
+        setError("No se pudo iniciar el pago. Inténtalo más tarde.");
+      }
+    };
+    handleUseEffect();
+  }, [ad]);
+
+  const appearance = { theme: "stripe" };
+  const options = { clientSecret, appearance };
+
+  if (error) {
+    return <p className="text-danger">{error}</p>;
   }
-  const appearance = {
-    theme: 'stripe',
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
 
   return (
-    <div className="App">
+    <div className="payment-intent-container">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

@@ -27,10 +27,11 @@ function InstrumentsPage() {
     const qPrecio = query.get("precioMax") || 5000;
     const qEstado = query.get("estado") || "";
     setMarca(qBrand);
-    setPrecioMax(qPrecio)
-    setEstado(qEstado)
+    setPrecioMax(qPrecio);
+    setEstado(qEstado);
     setFamilia(qFamily);
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const getData = async () => {

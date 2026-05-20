@@ -1,4 +1,11 @@
-import { Col, Row, NavDropdown, Container, Nav, Navbar } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  NavDropdown,
+  Container,
+  Nav,
+  Navbar,
+} from "react-bootstrap";
 import "./NavBar.css";
 import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,8 +13,7 @@ import { useContext } from "react";
 
 function NavBar() {
   const navigate = useNavigate();
-  const { isLoggedIn, authenticateUser, loggedUserId } =
-    useContext(AuthContext);
+  const { isLoggedIn, authenticateUser } = useContext(AuthContext);
 
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
@@ -20,37 +26,22 @@ function NavBar() {
   };
 
   return (
-    <Navbar 
-      expand="lg" 
-      style={{
-        backgroundColor:"rgb(68, 82, 102)",
-        padding: "0.5rem 1rem",
-        borderRadius: "40px"
-      }}
-      variant="dark"
-    >
+    <Navbar expand="lg" variant="dark" className="mm-navbar">
       <Container fluid>
-        {/* Logo */}
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img 
-            src="/logoblanco.png" 
-            style={{ width: "90px" }}
-            alt="Logo"
-          />
+          <img src="/logoblanco.png" alt="MiMusico" />
         </Navbar.Brand>
 
-        {/* Toggle button for mobile */}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Toggle aria-controls="mm-navbar-nav" />
+
+        <Navbar.Collapse id="mm-navbar-nav">
           <Nav className="me-auto">
-            {/* Dropdown Buscar */}
             <NavDropdown
               title="Buscar"
               id="nav-dropdown-buscar"
               className="mega-dropdown"
             >
-              <div className="mega-menu px-4 py-3" style={{ minWidth: "400px" }}>
+              <div className="mega-menu px-4 py-3" style={{ minWidth: "360px" }}>
                 <Container>
                   <Row>
                     <Col xs={12} md={6} className="mb-3 mb-md-0">
@@ -86,13 +77,19 @@ function NavBar() {
                         Fender
                       </NavDropdown.Item>
                     </Col>
-                    <Col xs={12} md={6} className="mt-3 mt-md-0" style={{ paddingTop: "8px" }}>
+                    <Col xs={12} md={6}>
                       <h6>Grupos</h6>
-                      <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_desc">
-                        Más Caros
+                      <NavDropdown.Item
+                        as={Link}
+                        to="/ads/groups?sort=cost_desc"
+                      >
+                        Más caros
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/ads/groups?sort=cost_asc">
-                        Mas Económicos
+                      <NavDropdown.Item
+                        as={Link}
+                        to="/ads/groups?sort=cost_asc"
+                      >
+                        Más económicos
                       </NavDropdown.Item>
                     </Col>
                   </Row>
@@ -101,30 +98,29 @@ function NavBar() {
             </NavDropdown>
           </Nav>
 
-          {/* Mi Cuenta - aligned to the right */}
           <Nav>
-            <NavDropdown title="Mi Cuenta" id="nav-dropdown-cuenta">
+            <NavDropdown title="Mi cuenta" id="nav-dropdown-cuenta" align="end">
               {isLoggedIn ? (
-                <NavDropdown.Item as={Link} to="/user-profile" eventKey="4.1">
+                <NavDropdown.Item as={Link} to="/user-profile">
                   Perfil
                 </NavDropdown.Item>
               ) : (
-                <NavDropdown.Item as={Link} to="/identification" eventKey="4.1">
+                <NavDropdown.Item as={Link} to="/identification">
                   Entrar o Registrarme
                 </NavDropdown.Item>
               )}
 
-              <NavDropdown.Item as={Link} to="/own-ads" eventKey="4.2">
-                Mis Anuncios
+              <NavDropdown.Item as={Link} to="/own-ads">
+                Mis anuncios
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to={`/own-reviews`} eventKey="4.3">
-                Mis Comentarios
+              <NavDropdown.Item as={Link} to="/own-reviews">
+                Mis comentarios
               </NavDropdown.Item>
               {isLoggedIn && (
                 <>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item eventKey="4.4" onClick={handleLogout}>
-                    Cerrar Sesión
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Cerrar sesión
                   </NavDropdown.Item>
                 </>
               )}

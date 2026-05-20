@@ -9,9 +9,9 @@ function ProfilePage() {
 
   const [showEdit, setShowEdit] = useState(false);
   const [profileInfo, setProfileInfo] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [number, setNumber] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -19,6 +19,7 @@ function ProfilePage() {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleEditForm = () => {
@@ -29,12 +30,11 @@ function ProfilePage() {
 
   const getData = async () => {
     try {
-      const token = localStorage.getItem("authToken");
       const response = await service.get(`/user/profile`);
       setProfileInfo(response.data);
-      setEmail(response.data.email);
-      setNumber(response.data.number);
-      setUsername(response.data.username);
+      setEmail(response.data.email || "");
+      setNumber(response.data.number || "");
+      setUsername(response.data.username || "");
     } catch (error) {
       console.log(error);
       navigate("/500");
@@ -48,7 +48,7 @@ function ProfilePage() {
       username,
       email,
       number,
-      photo: imageUrl,
+      photo: imageUrl || profileInfo?.photo,
     };
     await handleUpdate(updatedData);
     await getData();
@@ -57,7 +57,6 @@ function ProfilePage() {
 
   const handleUpdate = async (updatedData) => {
     try {
-      const token = localStorage.getItem("authToken");
       const response = await service.patch(`/user/profile`, updatedData);
       setProfileInfo(response.data);
     } catch (error) {
@@ -68,8 +67,8 @@ function ProfilePage() {
 
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await service.delete(`/user/profile`);
+      await service.delete(`/user/profile`);
+      localStorage.removeItem("authToken");
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -87,16 +86,17 @@ function ProfilePage() {
     try {
       const response = await service.post(`/upload`, uploadData);
       setImageUrl(response.data.imageUrl);
+    } catch {
+      navigate("/500");
+    } finally {
       setIsUploading(false);
-    } catch (error) {
-      navigate("/error");
     }
   };
 
   if (!profileInfo) {
     return (
       <div className="loading-container">
-        <img src="/animatedviolin.gif" alt="Loading..." />
+        <img src="/animatedviolin.gif" alt="Cargando..." />
       </div>
     );
   }
@@ -108,7 +108,7 @@ function ProfilePage() {
           <Card className="profile-card">
             <Card.Body>
               <h1 className="profile-title">Mi cuenta</h1>
-              
+
               <Row className="profile-content">
                 <Col xs={12} md={6} lg={4} className="profile-image-col">
                   <div className="profile-image-container">
@@ -119,7 +119,7 @@ function ProfilePage() {
                     />
                   </div>
                 </Col>
-                
+
                 <Col xs={12} md={6} lg={5} className="profile-info-col">
                   <div className="profile-info">
                     <h3 className="username">{profileInfo.username}</h3>
@@ -128,11 +128,15 @@ function ProfilePage() {
                       <p>{profileInfo.email}</p>
                     </div>
                     <div className="info-section">
-                      <h4>Number</h4>
-                      <p>{profileInfo.number}</p>
+                      <h4>Teléfono</h4>
+                      <p>{profileInfo.number || "—"}</p>
                     </div>
                     <div className="button-group">
-                      <Button variant="primary" onClick={toggleEditForm} className="mb-2 me-2">
+                      <Button
+                        variant="primary"
+                        onClick={toggleEditForm}
+                        className="mb-2 me-2"
+                      >
                         Editar
                       </Button>
                       <Button
@@ -140,16 +144,20 @@ function ProfilePage() {
                         onClick={toggleDeleteModal}
                         className="mb-2"
                       >
-                        Borrar Usuario
+                        Borrar usuario
                       </Button>
                     </div>
                   </div>
                 </Col>
-                
+
                 <Col xs={12} lg={3} className="profile-decoration-col">
                   {!showEdit && (
                     <div className="decoration-image">
-                      <img src="/pajaro.png" alt="Decoración" className="bird-image" />
+                      <img
+                        src="/pajaro.png"
+                        alt="Decoración"
+                        className="bird-image"
+                      />
                     </div>
                   )}
                 </Col>
@@ -160,7 +168,7 @@ function ProfilePage() {
           {showEdit && (
             <Card className="edit-card mt-4">
               <Card.Body>
-                <h3 className="mb-4">Editar Perfil</h3>
+                <h3 className="mb-4">Editar perfil</h3>
                 <Form onSubmit={handleFormSubmit}>
                   <Row>
                     <Col xs={12} md={6}>
@@ -172,44 +180,52 @@ function ProfilePage() {
                           disabled={isUploading}
                         />
                       </Form.Group>
-                      
+
                       <Form.Group className="mb-3">
                         <Form.Label>Usuario</Form.Label>
                         <Form.Control
                           type="text"
-                          value={username || ''}
+                          value={username}
                           onChange={(e) => setUsername(e.target.value)}
                         />
                       </Form.Group>
                     </Col>
-                    
+
                     <Col xs={12} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                           type="email"
-                          value={email || ''}
+                          value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </Form.Group>
-                      
+
                       <Form.Group className="mb-3">
                         <Form.Label>Número</Form.Label>
                         <Form.Control
                           type="text"
-                          value={number || ''}
+                          value={number}
                           onChange={(e) => setNumber(e.target.value)}
                         />
                       </Form.Group>
                     </Col>
                   </Row>
-                  
+
                   <div className="form-buttons">
-                    <Button variant="danger" onClick={toggleEditForm} className="me-2">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={toggleEditForm}
+                      className="me-2"
+                    >
                       Cerrar
                     </Button>
-                    <Button variant="primary" type="submit" disabled={isUploading}>
-                      {isUploading ? 'Guardando...' : 'Guardar'}
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      disabled={isUploading}
+                    >
+                      {isUploading ? "Guardando..." : "Guardar"}
                     </Button>
                   </div>
                 </Form>

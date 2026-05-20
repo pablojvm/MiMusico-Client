@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import {
   PaymentElement,
-  LinkAuthenticationElement,
   useStripe,
-  useElements
+  useElements,
 } from "@stripe/react-stripe-js";
 
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [email, setEmail] = useState('');
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,10 +58,12 @@ function CheckoutForm() {
         return_url: `${window.location.origin}/payment-success`,
       },
     });
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
+    if (error) {
+      if (error.type === "card_error" || error.type === "validation_error") {
+        setMessage(error.message);
+      } else {
+        setMessage("Ocurrió un error inesperado.");
+      }
     }
 
     setIsLoading(false);
@@ -74,14 +74,23 @@ function CheckoutForm() {
   }
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" className="checkout-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button
+        type="submit"
+        disabled={isLoading || !stripe || !elements}
+        id="submit"
+        className="btn btn-primary mt-3 w-100"
+      >
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? "Procesando..." : "Pagar ahora"}
         </span>
       </button>
-      {message && <div id="payment-message">{message}</div>}
+      {message && (
+        <div id="payment-message" className="text-danger small mt-2">
+          {message}
+        </div>
+      )}
     </form>
   );
 }

@@ -1,13 +1,22 @@
-import IdentificationBanner from "../components/IdentificationBanner"
+import IdentificationBanner from "../components/IdentificationBanner";
 
 function IdentificationPage() {
   return (
-    <div id="primerIdentification" style={{display:"flex", alignItems:"center"}}>
-      <h3>Compra y vende instrumentos de segunda mano o contrata al mejor grupo para tu mejor ocasión</h3>
-      <div style={{marginRight:"30px"}}><IdentificationBanner /></div>
-      
-    </div>
-  )
+    <section id="primerIdentification" className="identification-section">
+      <div className="identification-overlay">
+        <h1 className="identification-headline">
+          Compra y vende instrumentos de segunda mano o contrata al mejor
+          grupo para tu próxima ocasión.
+        </h1>
+        <p className="identification-subheadline">
+          Únete a la comunidad MiMusico y dale banda sonora a tu vida.
+        </p>
+      </div>
+      <div className="identification-form-wrapper">
+        <IdentificationBanner />
+      </div>
+    </section>
+  );
 }
 
-export default IdentificationPage
+export default IdentificationPage;
