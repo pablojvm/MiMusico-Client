@@ -30,19 +30,30 @@ function OwnAdsPage() {
   };
 
   return (
-    <div className="own-ads-page">
-      <h1 className="page-title text-center mb-4">Mis anuncios</h1>
+    <div className="own-ads-page page-fade">
+      <header className="listing-header">
+        <div className="listing-header-text">
+          <h1>Mis anuncios</h1>
+          <p className="listing-count">
+            Gestiona los instrumentos y servicios que tienes publicados.
+          </p>
+        </div>
+        <span className="listing-count-badge">
+          {adsById.length} publicado{adsById.length === 1 ? "" : "s"}
+        </span>
+      </header>
 
       <div className="own-ads-grid">
         {adsById.length === 0 && (
-          <div className="empty-state text-center">
+          <div className="listing-empty" style={{ gridColumn: "1 / -1" }}>
             <img
               src="/coincidences.png"
               alt="Sin anuncios"
-              style={{ maxWidth: 280, width: "100%" }}
+              style={{ maxWidth: 240, width: "100%" }}
             />
-            <p className="text-muted mt-3">
-              Aún no has publicado ningún anuncio.
+            <p className="text-muted mt-3 mb-0">
+              Aún no has publicado ningún anuncio. ¡Empieza a vender o
+              contratar!
             </p>
           </div>
         )}
@@ -56,17 +67,19 @@ function OwnAdsPage() {
               className="own-ad-img"
             />
             <Card.Header className="own-ad-header">
-              {ad.type === "instrument" ? "Instrumento" : "Grupo Musical"}
+              {ad.type === "instrument" ? "Instrumento" : "Grupo musical"}
             </Card.Header>
             <Card.Body>
-              <Card.Title>{ad.title}</Card.Title>
+              <Card.Title style={{ fontFamily: "var(--font-heading)" }}>
+                {ad.title}
+              </Card.Title>
               <Card.Text className="text-muted small">
                 {ad.description?.length > 100
                   ? `${ad.description.substring(0, 100)}...`
                   : ad.description}
               </Card.Text>
               <Button variant="primary" as={Link} to={`/ad/${ad._id}`}>
-                Más detalles
+                Más detalles →
               </Button>
             </Card.Body>
           </Card>
@@ -79,10 +92,10 @@ function OwnAdsPage() {
         >
           <div className="own-ad-add-inner">
             <span className="own-ad-add-plus">+</span>
-            <p className="mb-0">
+            <p className="mb-0" style={{ fontWeight: 600 }}>
               {adsById.length === 0
                 ? "Añade tu primer anuncio"
-                : "Añadir nuevo anuncio"}
+                : "Publicar nuevo anuncio"}
             </p>
           </div>
         </Card>

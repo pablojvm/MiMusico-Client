@@ -13,7 +13,6 @@ function OwnReviewsPage() {
   const [modalEliminar, setModalEliminar] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
 
-  // Estados para editar la review
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [score, setScore] = useState(1);
@@ -69,10 +68,6 @@ function OwnReviewsPage() {
     }
   };
 
-  if (!reviews) {
-    return <img src="/animatedviolin.gif" alt="Cargando..." />;
-  }
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const updatedData = { title, text, score };
@@ -82,30 +77,48 @@ function OwnReviewsPage() {
   };
 
   return (
-    <div className="own-reviews-page">
-      <h1 className="page-title text-center mb-4">Mis Comentarios</h1>
+    <div className="own-reviews-page page-fade">
+      <header className="listing-header">
+        <div className="listing-header-text">
+          <h1>Mis comentarios</h1>
+          <p className="listing-count">
+            Edita o elimina las reseñas que has dejado en los grupos.
+          </p>
+        </div>
+        <span className="listing-count-badge">
+          {reviews.length} reseña{reviews.length === 1 ? "" : "s"}
+        </span>
+      </header>
+
       {reviews.length === 0 ? (
-        <div className="empty-state text-center">
+        <div className="listing-empty">
           <img
             src="/coincidences.png"
             alt="Sin comentarios"
-            style={{ maxWidth: 280, width: "100%" }}
+            style={{ maxWidth: 240, width: "100%" }}
           />
-          <h2 className="mt-3 text-muted">Aún no creaste ningún comentario</h2>
+          <p className="text-muted mt-3 mb-0">
+            Aún no has dejado ningún comentario.
+          </p>
         </div>
       ) : (
         <div className="reviews-grid">
           {reviews.map((eachReview) => (
-            <Card key={eachReview._id} className="own-review-card mb-3">
+            <Card key={eachReview._id} className="own-review-card">
               <Card.Body
                 as={Link}
                 to={`/ad/${eachReview.ad?._id ?? ""}`}
                 className="text-decoration-none text-reset"
               >
-                <Card.Title>{eachReview.title}</Card.Title>
+                <Card.Title style={{ fontFamily: "var(--font-heading)" }}>
+                  {eachReview.title}
+                </Card.Title>
                 <blockquote className="blockquote mb-0">
-                  <p>{eachReview.text}</p>
-                  <footer className="blockquote-footer">
+                  <p style={{ fontSize: "0.95rem" }}>{eachReview.text}</p>
+                  <footer
+                    className="blockquote-footer"
+                    style={{ fontSize: "0.95rem" }}
+                  >
                     {"⭐".repeat(eachReview.score)}
                   </footer>
                 </blockquote>
@@ -131,28 +144,30 @@ function OwnReviewsPage() {
               </div>
             </Card>
           ))}
-
-          {showEditor && (
-            <EditorReview
-              title={title}
-              setTitle={setTitle}
-              text={text}
-              setText={setText}
-              score={score}
-              setScore={setScore}
-              onSubmit={handleFormSubmit}
-              onCancel={cerrarEditor}
-            />
-          )}
-
-          {modalEliminar && (
-            <ModalEliminarReview
-              eliminarReview={eliminarReview}
-              review={selectedReview}
-              toggleModalEliminar={() => setModalEliminar(false)}
-            />
-          )}
         </div>
+      )}
+
+      {showEditor && (
+        <div className="banner-edit-ad mt-4">
+          <EditorReview
+            title={title}
+            setTitle={setTitle}
+            text={text}
+            setText={setText}
+            score={score}
+            setScore={setScore}
+            onSubmit={handleFormSubmit}
+            onCancel={cerrarEditor}
+          />
+        </div>
+      )}
+
+      {modalEliminar && (
+        <ModalEliminarReview
+          eliminarReview={eliminarReview}
+          review={selectedReview}
+          toggleModalEliminar={() => setModalEliminar(false)}
+        />
       )}
     </div>
   );

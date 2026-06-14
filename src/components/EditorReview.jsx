@@ -12,6 +12,17 @@ function EditorReview({
 }) {
   return (
     <div>
+      <h3
+        style={{
+          fontFamily: "var(--font-display)",
+          color: "var(--mm-navy)",
+          letterSpacing: "1.2px",
+          textTransform: "uppercase",
+          marginBottom: "1rem",
+        }}
+      >
+        Editar reseña
+      </h3>
       <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="formTitle">
           <Form.Label>Título</Form.Label>
@@ -26,13 +37,15 @@ function EditorReview({
           <Form.Label>Comentario</Form.Label>
           <Form.Control
             as="textarea"
+            rows={3}
             placeholder="Escribe aquí tu reseña"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
         </Form.Group>
-        <Form.Label>
-          Score: <strong>{score}⭐</strong>
+        <Form.Label className="d-flex justify-content-between">
+          <span>Puntuación</span>
+          <strong>{score}⭐</strong>
         </Form.Label>
         <Form.Range
           min={1}
@@ -41,12 +54,12 @@ function EditorReview({
           value={score}
           onChange={(e) => setScore(Number(e.target.value))}
         />
-        <div className="d-flex gap-2">
-          <Button variant="primary" type="submit">
-            Guardar
-          </Button>
-          <Button variant="secondary" type="button" onClick={onCancel}>
+        <div className="d-flex gap-2 mt-3">
+          <Button variant="outline-secondary" type="button" onClick={onCancel}>
             Cancelar
+          </Button>
+          <Button variant="primary" type="submit">
+            Guardar cambios
           </Button>
         </div>
       </Form>

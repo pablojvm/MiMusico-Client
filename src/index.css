@@ -1,31 +1,48 @@
-/* ===== VARIABLES DE IDENTIDAD MIMUSICO ===== */
+/* ============================================================
+   MiMusico — Tokens de identidad
+   Navy + Mint con acento coral cálido. Tipografía Anton (display),
+   Bricolage Grotesque (subheadings) y Manrope (body).
+   ============================================================ */
+
 :root {
-  /* Paleta principal */
+  /* === Paleta === */
   --mm-navy: rgb(68, 82, 102);
-  --mm-navy-dark: rgb(48, 60, 78);
+  --mm-navy-dark: rgb(36, 46, 62);
   --mm-navy-light: rgb(99, 116, 140);
   --mm-mint: rgb(151, 228, 236);
-  --mm-mint-dark: rgb(109, 167, 174);
-  --mm-bg: rgb(244, 245, 247);
+  --mm-mint-dark: rgb(96, 184, 194);
+  --mm-coral: #ff7a59;
+  --mm-coral-dark: #e85a3a;
+  --mm-cream: #fff7eb;
+  --mm-paper: #fbf7f0;
+  --mm-ink: #1a2030;
+  --mm-bg: #f4f5f7;
   --mm-bg-alt: #ffffff;
-  --mm-text: #2c3e50;
+  --mm-text: #1a2030;
   --mm-text-muted: #6b7280;
   --mm-border: #e5e7eb;
   --mm-danger: #dc3545;
   --mm-success: #198754;
 
-  /* Sombras */
-  --mm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --mm-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --mm-shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+  /* === Sombras === */
+  --mm-shadow-sm: 0 1px 2px rgba(26, 32, 48, 0.06);
+  --mm-shadow: 0 8px 24px rgba(26, 32, 48, 0.08);
+  --mm-shadow-lg: 0 24px 48px rgba(26, 32, 48, 0.14);
+  --mm-shadow-coral: 0 12px 28px rgba(255, 122, 89, 0.32);
 
-  /* Bordes */
-  --mm-radius: 12px;
-  --mm-radius-lg: 20px;
+  /* === Bordes === */
+  --mm-radius-sm: 8px;
+  --mm-radius: 14px;
+  --mm-radius-lg: 24px;
+  --mm-radius-xl: 32px;
 
-  /* Tipografía */
-  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  /* === Tipografía === */
+  --font-display: "Anton", "Bricolage Grotesque", system-ui, sans-serif;
+  --font-heading: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, sans-serif;
+
+  font-family: var(--font-body);
+  line-height: 1.55;
   font-weight: 400;
 
   color-scheme: light;
@@ -36,4 +53,38 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Textura grain sutil sobre el fondo global */
+body {
+  position: relative;
+  background-color: var(--mm-bg);
+  background-image:
+    radial-gradient(
+      circle at 12% 20%,
+      rgba(151, 228, 236, 0.18) 0,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 88% 84%,
+      rgba(255, 122, 89, 0.12) 0,
+      transparent 42%
+    );
+  background-attachment: fixed;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+}
+
+#root {
+  position: relative;
+  z-index: 2;
 }

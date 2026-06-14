@@ -104,8 +104,14 @@ function CreateAdPage() {
   };
 
   return (
-    <div className="create-ad-page">
-      <h1 className="page-title text-center mb-4">Crea tu anuncio</h1>
+    <div className="create-ad-page page-fade">
+      <div className="text-center mb-4">
+        <span className="eyebrow">Publica gratis</span>
+        <h1 className="page-title">Crea tu anuncio</h1>
+        <p className="text-muted mt-2 mb-0">
+          Rellena los datos y publica en menos de un minuto.
+        </p>
+      </div>
       <div className="create-ad-card">
         <Form onSubmit={handleCreateAd}>
           <InputGroup className="mb-3">
@@ -254,12 +260,12 @@ function CreateAdPage() {
           )}
 
           <Button
-            variant="primary"
-            className="w-100"
+            className="btn-coral w-100"
             type="submit"
             disabled={isUploading}
+            style={{ padding: "0.85rem", fontSize: "1rem" }}
           >
-            {isUploading ? "Subiendo imagen..." : "Crear anuncio"}
+            {isUploading ? "Subiendo imagen..." : "Publicar anuncio →"}
           </Button>
         </Form>
         {errorMessage && (

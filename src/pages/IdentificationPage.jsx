@@ -2,14 +2,15 @@ import IdentificationBanner from "../components/IdentificationBanner";
 
 function IdentificationPage() {
   return (
-    <section id="primerIdentification" className="identification-section">
+    <section className="identification-section page-fade">
       <div className="identification-overlay">
+        <span className="identification-eyebrow">Únete a MiMusico</span>
         <h1 className="identification-headline">
-          Compra y vende instrumentos de segunda mano o contrata al mejor
-          grupo para tu próxima ocasión.
+          Compra, vende y <em>contrata</em> música en un solo lugar.
         </h1>
         <p className="identification-subheadline">
-          Únete a la comunidad MiMusico y dale banda sonora a tu vida.
+          Conecta con músicos y compradores de toda España. Crear cuenta es
+          gratis y solo te lleva un minuto.
         </p>
       </div>
       <div className="identification-form-wrapper">

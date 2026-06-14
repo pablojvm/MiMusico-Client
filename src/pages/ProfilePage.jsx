@@ -77,9 +77,7 @@ function ProfilePage() {
   };
 
   const handleFileUpload = async (event) => {
-    if (!event.target.files[0]) {
-      return;
-    }
+    if (!event.target.files[0]) return;
     setIsUploading(true);
     const uploadData = new FormData();
     uploadData.append("image", event.target.files[0]);
@@ -102,72 +100,62 @@ function ProfilePage() {
   }
 
   return (
-    <Container fluid className="profile-container">
+    <Container fluid className="profile-container page-fade">
       <Row className="justify-content-center">
-        <Col xs={12} lg={10} xl={8}>
+        <Col xs={12} lg={10} xl={9}>
+          <div className="profile-hero">
+            <img
+              src={profileInfo.photo}
+              alt="foto de perfil"
+              className="profile-hero-avatar"
+            />
+            <div className="profile-hero-text">
+              <span className="profile-hero-eyebrow">Mi cuenta</span>
+              <h1 className="profile-hero-name">{profileInfo.username}</h1>
+              <p className="profile-hero-meta">
+                Miembro de la comunidad MiMusico
+              </p>
+            </div>
+          </div>
+
           <Card className="profile-card">
-            <Card.Body>
-              <h1 className="profile-title">Mi cuenta</h1>
+            <Card.Body className="p-4 p-md-5">
+              <div className="info-grid">
+                <div className="info-section">
+                  <h4>Email</h4>
+                  <p>{profileInfo.email}</p>
+                </div>
+                <div className="info-section">
+                  <h4>Teléfono</h4>
+                  <p>{profileInfo.number || "—"}</p>
+                </div>
+                <div className="info-section">
+                  <h4>Usuario</h4>
+                  <p>@{profileInfo.username}</p>
+                </div>
+              </div>
 
-              <Row className="profile-content">
-                <Col xs={12} md={6} lg={4} className="profile-image-col">
-                  <div className="profile-image-container">
-                    <img
-                      src={profileInfo.photo}
-                      alt="foto de perfil"
-                      className="profile-image"
-                    />
-                  </div>
-                </Col>
-
-                <Col xs={12} md={6} lg={5} className="profile-info-col">
-                  <div className="profile-info">
-                    <h3 className="username">{profileInfo.username}</h3>
-                    <div className="info-section">
-                      <h4>Email</h4>
-                      <p>{profileInfo.email}</p>
-                    </div>
-                    <div className="info-section">
-                      <h4>Teléfono</h4>
-                      <p>{profileInfo.number || "—"}</p>
-                    </div>
-                    <div className="button-group">
-                      <Button
-                        variant="primary"
-                        onClick={toggleEditForm}
-                        className="mb-2 me-2"
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        onClick={toggleDeleteModal}
-                        className="mb-2"
-                      >
-                        Borrar usuario
-                      </Button>
-                    </div>
-                  </div>
-                </Col>
-
-                <Col xs={12} lg={3} className="profile-decoration-col">
-                  {!showEdit && (
-                    <div className="decoration-image">
-                      <img
-                        src="/pajaro.png"
-                        alt="Decoración"
-                        className="bird-image"
-                      />
-                    </div>
-                  )}
-                </Col>
-              </Row>
+              <div className="button-group">
+                <Button
+                  variant="primary"
+                  onClick={toggleEditForm}
+                  className="me-2"
+                >
+                  {showEdit ? "Cerrar edición" : "Editar perfil"}
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  onClick={toggleDeleteModal}
+                >
+                  Borrar cuenta
+                </Button>
+              </div>
             </Card.Body>
           </Card>
 
           {showEdit && (
             <Card className="edit-card mt-4">
-              <Card.Body>
+              <Card.Body className="p-4">
                 <h3 className="mb-4">Editar perfil</h3>
                 <Form onSubmit={handleFormSubmit}>
                   <Row>
@@ -218,14 +206,14 @@ function ProfilePage() {
                       onClick={toggleEditForm}
                       className="me-2"
                     >
-                      Cerrar
+                      Cancelar
                     </Button>
                     <Button
                       variant="primary"
                       type="submit"
                       disabled={isUploading}
                     >
-                      {isUploading ? "Guardando..." : "Guardar"}
+                      {isUploading ? "Guardando..." : "Guardar cambios"}
                     </Button>
                   </div>
                 </Form>
