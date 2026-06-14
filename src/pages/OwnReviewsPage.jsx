@@ -97,9 +97,13 @@ function OwnReviewsPage() {
             alt="Sin comentarios"
             style={{ maxWidth: 240, width: "100%" }}
           />
-          <p className="text-muted mt-3 mb-0">
-            Aún no has dejado ningún comentario.
+          <p className="text-muted mt-3 mb-3">
+            Aún no has dejado ningún comentario. Explora grupos y deja tu
+            primera reseña.
           </p>
+          <Link to="/ads/groups" className="btn btn-primary">
+            Ver grupos musicales →
+          </Link>
         </div>
       ) : (
         <div className="reviews-grid">

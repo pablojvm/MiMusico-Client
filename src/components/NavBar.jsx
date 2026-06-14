@@ -98,29 +98,47 @@ function NavBar() {
             </NavDropdown>
           </Nav>
 
-          <Nav>
+          <Nav className="align-items-lg-center gap-lg-2">
+            {isLoggedIn && (
+              <Nav.Link
+                as={Link}
+                to="/new-ad"
+                className="d-none d-lg-inline-flex publish-cta"
+              >
+                + Publicar
+              </Nav.Link>
+            )}
             <NavDropdown title="Mi cuenta" id="nav-dropdown-cuenta" align="end">
               {isLoggedIn ? (
-                <NavDropdown.Item as={Link} to="/user-profile">
-                  Perfil
-                </NavDropdown.Item>
-              ) : (
-                <NavDropdown.Item as={Link} to="/identification">
-                  Entrar o Registrarme
-                </NavDropdown.Item>
-              )}
-
-              <NavDropdown.Item as={Link} to="/own-ads">
-                Mis anuncios
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/own-reviews">
-                Mis comentarios
-              </NavDropdown.Item>
-              {isLoggedIn && (
                 <>
+                  <NavDropdown.Item as={Link} to="/user-profile">
+                    Perfil
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/own-ads">
+                    Mis anuncios
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/own-reviews">
+                    Mis comentarios
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/new-ad"
+                    className="d-lg-none"
+                  >
+                    + Publicar
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>
                     Cerrar sesión
+                  </NavDropdown.Item>
+                </>
+              ) : (
+                <>
+                  <NavDropdown.Item as={Link} to="/identification">
+                    Entrar
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/identification">
+                    Crear cuenta
                   </NavDropdown.Item>
                 </>
               )}

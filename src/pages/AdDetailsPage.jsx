@@ -265,7 +265,16 @@ function AdDetailsPage() {
                   <button
                     type="button"
                     className="btn-coral flex-fill"
-                    onClick={() => setShowPaymentIntent(true)}
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        alert(
+                          "Necesitas tener cuenta para hacer un pago. Te llevamos al login."
+                        );
+                        navigate("/identification");
+                        return;
+                      }
+                      setShowPaymentIntent(true);
+                    }}
                   >
                     Iniciar pago seguro →
                   </button>

@@ -13,8 +13,20 @@ body {
 #root {
   width: 100%;
   margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-main {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
   padding: 1.25rem 1.5rem 4rem;
-  min-height: 90vh;
+}
+
+@media (max-width: 575.98px) {
+  .mm-main { padding: 1rem; }
 }
 
 /* ===== TIPOGRAFÍA ===== */
@@ -1688,6 +1700,96 @@ h1 {
 .form-floating > .form-control:not(:placeholder-shown) ~ label {
   color: var(--mm-navy);
   font-weight: 600;
+}
+
+/* ===== FOOTER ===== */
+.mm-footer {
+  background: linear-gradient(135deg, var(--mm-navy) 0%, var(--mm-navy-dark) 100%);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 3rem clamp(1rem, 4vw, 3rem) 1.25rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.mm-footer-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 2.5rem;
+  max-width: 1240px;
+  margin: 0 auto 2rem;
+}
+
+@media (max-width: 768px) {
+  .mm-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.mm-footer-brand p {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 320px;
+  font-size: 0.92rem;
+}
+
+.mm-footer-logo {
+  width: 110px;
+  height: auto;
+}
+
+.mm-footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 540px) {
+  .mm-footer-columns { grid-template-columns: repeat(2, 1fr); }
+}
+
+.mm-footer-columns h6 {
+  color: var(--mm-mint);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.78rem;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.mm-footer-columns a {
+  display: block;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  padding: 4px 0;
+  font-size: 0.92rem;
+  transition: color 0.18s ease;
+}
+
+.mm-footer-columns a:hover {
+  color: #fff;
+}
+
+.mm-footer-bottom {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mm-footer-tagline {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+  color: var(--mm-mint);
 }
 
 /* ===== MEDIA QUERIES ===== */

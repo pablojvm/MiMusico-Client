@@ -168,7 +168,7 @@ function IdentificationBanner() {
               <FloatingLabel
                 controlId="signupPassword"
                 label="Password"
-                className="mb-3"
+                className="mb-2"
               >
                 <Form.Control
                   type="password"
@@ -177,6 +177,13 @@ function IdentificationBanner() {
                   onChange={handlePasswordChange}
                 />
               </FloatingLabel>
+              <small
+                className="text-muted d-block mb-3"
+                style={{ fontSize: "0.78rem", lineHeight: 1.4 }}
+              >
+                8–16 caracteres, al menos un número y un carácter especial
+                (!@#$%^&*).
+              </small>
               <Button variant="primary" className="w-100 mb-3" type="submit">
                 Crear cuenta
               </Button>

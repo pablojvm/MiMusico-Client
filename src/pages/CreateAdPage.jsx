@@ -24,7 +24,14 @@ function CreateAdPage() {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleTypeChange = (e) => setType(e.target.value);
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+    // Al cambiar el tipo limpiamos campos específicos para evitar combinaciones inválidas
+    setFamily("");
+    setState("");
+    setBrand("");
+    setModel("");
+  };
   const handleFamilyChange = (e) => setFamily(e.target.value);
   const handleStateChange = (e) => setState(e.target.value);
   const handleBrandChange = (e) => setBrand(e.target.value);
@@ -53,6 +60,27 @@ function CreateAdPage() {
   const handleCreateAd = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
+
+    if (!title.trim()) {
+      setErrorMessage("Pon un título a tu anuncio.");
+      return;
+    }
+    if (!type) {
+      setErrorMessage("Selecciona el tipo de anuncio.");
+      return;
+    }
+    if (!cost || Number(cost) <= 0) {
+      setErrorMessage("Indica un precio válido (mayor que 0).");
+      return;
+    }
+    if (type === "instrument" && !family) {
+      setErrorMessage("Selecciona la familia del instrumento.");
+      return;
+    }
+    if (type === "service" && !family) {
+      setErrorMessage("Selecciona el tipo de grupo.");
+      return;
+    }
 
     try {
       const newAd = {
